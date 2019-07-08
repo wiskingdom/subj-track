@@ -19,6 +19,7 @@ import ***REMOVED***
   QItemSection,
   QItemLabel,
   QInput,
+  Dialog,
 ***REMOVED*** from 'quasar';
 
 Vue.use(Quasar, ***REMOVED***
@@ -42,5 +43,6 @@ Vue.use(Quasar, ***REMOVED***
   directives: ***REMOVED***
   ***REMOVED***,
   plugins: ***REMOVED***
+    Dialog,
   ***REMOVED***,
 ***REMOVED***);

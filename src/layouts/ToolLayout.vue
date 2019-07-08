@@ -12,10 +12,11 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Subject Track
         </q-toolbar-title>
 
-        <div>Quasar v***REMOVED******REMOVED*** $q.version ***REMOVED******REMOVED***</div>
+        <div>***REMOVED******REMOVED*** userEmail ***REMOVED******REMOVED***</div>
+        <q-btn color="secondary" @click="logout" label="Logout" style="margin-left: 10px"/>
       </q-toolbar>
     </q-header>
 
@@ -107,5 +108,17 @@ export default ***REMOVED***
       leftDrawerOpen: this.$q.platform.is.desktop,
     ***REMOVED***;
   ***REMOVED***,
+  computed: ***REMOVED***
+    userEmail() ***REMOVED***
+      return this.$firebase.auth().currentUser.email;
+    ***REMOVED***,
+  ***REMOVED***,
+  methods: ***REMOVED***
+    logout: function() ***REMOVED***
+      this.$firebase.auth().signOut().then(() => ***REMOVED***
+        this.$router.replace('login');
+      ***REMOVED***);
+    ***REMOVED***
+  ***REMOVED***
 ***REMOVED***;
 </script>

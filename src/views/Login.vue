@@ -43,7 +43,7 @@ export default ***REMOVED***
   ***REMOVED***,
   methods: ***REMOVED***
     login() ***REMOVED***
-      this.$firebase.auth()
+      this.$auth
         .signInWithEmailAndPassword(this.user.email, this.user.password)
         .then(() => ***REMOVED***
           this.$router.replace('tool');

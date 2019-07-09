@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import App from './App.vue';
@@ -13,7 +13,8 @@ Vue.config.productionTip = false;
 let app = '';
 
 firebase.initializeApp(firebaseConfig);
-Vue.prototype.$firebase = firebase;
+Vue.prototype.$auth = firebase.auth();
+Vue.prototype.$db = firebase.database();
 
 firebase.auth().onAuthStateChanged(() => ***REMOVED***
   if (!app) ***REMOVED***

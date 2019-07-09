@@ -17,6 +17,8 @@
 
         <div>***REMOVED******REMOVED*** userEmail ***REMOVED******REMOVED***</div>
         <q-btn color="secondary" @click="logout" label="Logout" style="margin-left: 10px"/>
+        <q-btn color="secondary" @click="update" label="update" style="margin-left: 10px"/>
+        <q-btn color="secondary" @click="setUser" label="setUser" style="margin-left: 10px"/>
       </q-toolbar>
     </q-header>
 
@@ -94,6 +96,7 @@
     </q-drawer>
 
     <q-page-container>
+      <p>***REMOVED******REMOVED*** userObj ***REMOVED******REMOVED***</p>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -106,19 +109,36 @@ export default ***REMOVED***
   data() ***REMOVED***
     return ***REMOVED***
       leftDrawerOpen: this.$q.platform.is.desktop,
+      userObj: ***REMOVED******REMOVED***,
     ***REMOVED***;
   ***REMOVED***,
   computed: ***REMOVED***
     userEmail() ***REMOVED***
-      return this.$firebase.auth().currentUser.email;
+      return this.$auth.currentUser.email;
+    ***REMOVED***,
+    statData() ***REMOVED***
+      var rootRef = this.$db.ref();
+      return this.$db.ref('stat').isEqual(rootRef.child('stat'));
     ***REMOVED***,
   ***REMOVED***,
   methods: ***REMOVED***
-    logout: function() ***REMOVED***
-      this.$firebase.auth().signOut().then(() => ***REMOVED***
+    logout() ***REMOVED***
+      this.$auth.signOut().then(() => ***REMOVED***
         this.$router.replace('login');
       ***REMOVED***);
-    ***REMOVED***
-  ***REMOVED***
+    ***REMOVED***,
+    update() ***REMOVED***
+      this.$db.ref(`/users`).set(***REMOVED***
+        username: 'name',
+        email: 'email',
+        profile_picture : 'imageUrl'
+      ***REMOVED***);
+    ***REMOVED***,
+    setUser() ***REMOVED***
+      this.$db.ref(`/users`).once('value').then( (dataSnapshot) => ***REMOVED***
+        this.userObj = dataSnapshot;
+      ***REMOVED***);
+    ***REMOVED***,
+  ***REMOVED***,
 ***REMOVED***;
 </script>

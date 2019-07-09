@@ -1,18 +1,18 @@
-module.exports = ***REMOVED***
+module.exports = {
   root: true,
-  env: ***REMOVED***
+  env: {
     node: true,
-  ***REMOVED***,
+  },
   extends: [
     'plugin:vue/essential',
     '@vue/airbnb',
   ],
-  rules: ***REMOVED***
+  rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-param-reassign': 'off',
-  ***REMOVED***,
-  parserOptions: ***REMOVED***
+  },
+  parserOptions: {
     parser: 'babel-eslint',
-  ***REMOVED***,
-***REMOVED***;
+  },
+};

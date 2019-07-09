@@ -3,7 +3,7 @@ import Vue from 'vue';
 import './styles/quasar.styl';
 import '@quasar/extras/roboto-font/roboto-font.css';
 import '@quasar/extras/material-icons/material-icons.css';
-import ***REMOVED***
+import {
   Quasar,
   QLayout,
   QHeader,
@@ -20,11 +20,11 @@ import ***REMOVED***
   QItemLabel,
   QInput,
   Dialog,
-***REMOVED*** from 'quasar';
+} from 'quasar';
 
-Vue.use(Quasar, ***REMOVED***
-  config: ***REMOVED******REMOVED***,
-  components: ***REMOVED***
+Vue.use(Quasar, {
+  config: {},
+  components: {
     QLayout,
     QHeader,
     QDrawer,
@@ -39,10 +39,10 @@ Vue.use(Quasar, ***REMOVED***
     QItemSection,
     QItemLabel,
     QInput,
-  ***REMOVED***,
-  directives: ***REMOVED***
-  ***REMOVED***,
-  plugins: ***REMOVED***
+  },
+  directives: {
+  },
+  plugins: {
     Dialog,
-  ***REMOVED***,
-***REMOVED***);
+  },
+});

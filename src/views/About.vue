@@ -5,7 +5,7 @@
 </template>
 
 <script>
-export default ***REMOVED***
+export default {
   name: 'PageAbout',
-***REMOVED***;
+};
 </script>

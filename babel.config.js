@@ -1,16 +1,16 @@
-module.exports = ***REMOVED***
+module.exports = {
   presets: [
     '@vue/app',
   ],
   plugins: [
     [
       'transform-imports',
-      ***REMOVED***
-        quasar: ***REMOVED***
+      {
+        quasar: {
           transform: 'quasar/dist/babel-transforms/imports.js',
           preventFullImport: true,
-        ***REMOVED***,
-      ***REMOVED***,
+        },
+      },
     ],
   ],
-***REMOVED***;
+};

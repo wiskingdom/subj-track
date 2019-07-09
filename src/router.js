@@ -7,37 +7,37 @@ import About from './views/About.vue';
 
 Vue.use(Router);
 
-export default new Router(***REMOVED***
+export default new Router({
   mode: 'history',
   routes: [
-    ***REMOVED***
+    {
       path: '*',
       redirect: '/login',
-    ***REMOVED***,
-    ***REMOVED***
+    },
+    {
       path: '/',
       redirect: '/login',
-    ***REMOVED***,
-    ***REMOVED***
+    },
+    {
       path: '/login',
       name: 'login',
       component: Login,
-    ***REMOVED***,
-    ***REMOVED***
+    },
+    {
       path: '/tool',
       component: ToolLayout,
       children: [
-        ***REMOVED***
+        {
           path: '',
           name: 'home',
           component: Home,
-        ***REMOVED***,
-        ***REMOVED***
+        },
+        {
           path: '/about',
           name: 'about',
           component: About,
-        ***REMOVED***,
+        },
       ],
-    ***REMOVED***,
+    },
   ],
-***REMOVED***);
+});

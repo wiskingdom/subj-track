@@ -6,27 +6,27 @@ const db = fireapp.database();
 
 Vue.use(Vuex);
 
-export default new Vuex.Store(***REMOVED***
-  state: ***REMOVED***
+export default new Vuex.Store({
+  state: {
     docStats: null,
-    dummy: ***REMOVED***
+    dummy: {
       greet: 'hello',
       bye: 'byebye',
-    ***REMOVED***,
-  ***REMOVED***,
-  mutations: ***REMOVED***
-    setDocStats(state, payload) ***REMOVED***
+    },
+  },
+  mutations: {
+    setDocStats(state, payload) {
       state.docStats = payload;
-    ***REMOVED***,
-  ***REMOVED***,
-  actions: ***REMOVED***
-    fetchDocStats(***REMOVED*** commit ***REMOVED***) ***REMOVED***
-      db.ref('/stat').once('value').then((dataSnapshot) => ***REMOVED***
+    },
+  },
+  actions: {
+    fetchDocStats({ commit }) {
+      db.ref('/stat').once('value').then((dataSnapshot) => {
         commit('setDocStats', dataSnapshot.val());
-      ***REMOVED***);
-    ***REMOVED***,
-  ***REMOVED***,
-  getters: ***REMOVED***
+      });
+    },
+  },
+  getters: {
     docStats: state => state.docStats,
-  ***REMOVED***,
-***REMOVED***);
+  },
+});

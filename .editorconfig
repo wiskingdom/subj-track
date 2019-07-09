@@ -1,4 +1,4 @@
-[*.***REMOVED***js,jsx,ts,tsx,vue***REMOVED***]
+[*.{js,jsx,ts,tsx,vue}]
 indent_style = space
 indent_size = 2
 end_of_line = lf

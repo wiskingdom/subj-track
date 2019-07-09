@@ -8,7 +8,7 @@
 </style>
 
 <script>
-export default ***REMOVED***
+export default {
   name: 'PageHome',
-***REMOVED***;
+};
 </script>

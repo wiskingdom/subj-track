@@ -12,12 +12,12 @@ let app = '';
 Vue.prototype.$auth = fireapp.auth();
 Vue.prototype.$db = fireapp.database();
 
-fireapp.auth().onAuthStateChanged(() => ***REMOVED***
-  if (!app) ***REMOVED***
-    app = new Vue(***REMOVED***
+fireapp.auth().onAuthStateChanged(() => {
+  if (!app) {
+    app = new Vue({
       router,
       store,
       render: h => h(App),
-    ***REMOVED***).$mount('#app');
-  ***REMOVED***
-***REMOVED***);
+    }).$mount('#app');
+  }
+});

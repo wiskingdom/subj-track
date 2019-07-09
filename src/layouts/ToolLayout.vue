@@ -15,7 +15,7 @@
           Subject Track
         </q-toolbar-title>
 
-        <div>***REMOVED******REMOVED*** userEmail ***REMOVED******REMOVED***</div>
+        <div>{{ userEmail }}</div>
         <q-btn color="secondary" @click="logout" :label="logBTN" style="margin-left: 10px"/>
       </q-toolbar>
     </q-header>
@@ -56,64 +56,64 @@
             <q-item-label caption>quasar.dev</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-for="(item, key) in docStats" :key="`doc_$***REMOVED***key***REMOVED***`">
+        <q-item v-for="(item, key) in docStats" :key="`doc_${key}`">
           <q-item-section avatar>
             <q-icon name="school" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>***REMOVED******REMOVED*** key ***REMOVED******REMOVED***</q-item-label>
-            <q-item-label caption>***REMOVED******REMOVED*** item.stat ***REMOVED******REMOVED***</q-item-label>
+            <q-item-label>{{ key }}</q-item-label>
+            <q-item-label caption>{{ item.stat }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      <p>***REMOVED******REMOVED*** docStats ***REMOVED******REMOVED***</p>
+      <p>{{ docStats }}</p>
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-export default ***REMOVED***
+export default {
   name: 'ToolLayout',
 
-  data() ***REMOVED***
-    return ***REMOVED***
+  data() {
+    return {
       leftDrawerOpen: this.$q.platform.is.desktop,
-    ***REMOVED***;
-  ***REMOVED***,
+    };
+  },
 
-  computed: ***REMOVED***
-    currentUser() ***REMOVED***
+  computed: {
+    currentUser() {
       return this.$auth.currentUser;
-    ***REMOVED***,
-    userEmail() ***REMOVED***
-      const ***REMOVED*** email ***REMOVED*** = this.currentUser ? this.currentUser : '';
+    },
+    userEmail() {
+      const { email } = this.currentUser ? this.currentUser : '';
       return email;
-    ***REMOVED***,
-    logBTN() ***REMOVED***
+    },
+    logBTN() {
       return this.currentUser ? 'logout' : 'login';
-    ***REMOVED***,
-    docStats() ***REMOVED***
+    },
+    docStats() {
       return this.$store.getters.docStats;
-    ***REMOVED***,
-  ***REMOVED***,
+    },
+  },
 
-  methods: ***REMOVED***
-    logout() ***REMOVED***
-      this.$auth.signOut().then(() => ***REMOVED***
+  methods: {
+    logout() {
+      this.$auth.signOut().then(() => {
         this.$router.replace('login');
-      ***REMOVED***);
-    ***REMOVED***,
-    fetchDocStats() ***REMOVED***
+      });
+    },
+    fetchDocStats() {
       this.$store.dispatch('fetchDocStats');
-    ***REMOVED***,
-  ***REMOVED***,
+    },
+  },
 
-  created() ***REMOVED***
+  created() {
     this.fetchDocStats();
-  ***REMOVED***,
-***REMOVED***;
+  },
+};
 </script>

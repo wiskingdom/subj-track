@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>***REMOVED******REMOVED*** msg ***REMOVED******REMOVED***</h1>
+    <h1>{{ msg }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -31,28 +31,28 @@
 </template>
 
 <script>
-export default ***REMOVED***
+export default {
   name: 'HelloWorld',
-  props: ***REMOVED***
+  props: {
     msg: String,
-  ***REMOVED***,
-***REMOVED***;
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 ***REMOVED***
+h3 {
   margin: 40px 0 0;
-***REMOVED***
-ul ***REMOVED***
+}
+ul {
   list-style-type: none;
   padding: 0;
-***REMOVED***
-li ***REMOVED***
+}
+li {
   display: inline-block;
   margin: 0 10px;
-***REMOVED***
-a ***REMOVED***
+}
+a {
   color: #42b983;
-***REMOVED***
+}
 </style>

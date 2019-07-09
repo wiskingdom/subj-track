@@ -31,35 +31,35 @@
 </template>
 
 <script>
-export default ***REMOVED***
+export default {
   name: 'login',
-  data() ***REMOVED***
-    return ***REMOVED***
+  data() {
+    return {
       // information only for this component.
-      user: ***REMOVED***
+      user: {
         email: '',
         password: '',
-      ***REMOVED***,
-    ***REMOVED***;
-  ***REMOVED***,
-  methods: ***REMOVED***
-    login() ***REMOVED***
+      },
+    };
+  },
+  methods: {
+    login() {
       this.$auth
         .signInWithEmailAndPassword(this.user.email, this.user.password)
-        .then(() => ***REMOVED***
+        .then(() => {
           this.$router.replace('tool');
-        ***REMOVED***)
-        .catch((err) => ***REMOVED***
-          this.$q.dialog(***REMOVED***
+        })
+        .catch((err) => {
+          this.$q.dialog({
             title: 'Error',
             message:
-              `$***REMOVED***err.message***REMOVED***`,
-          ***REMOVED***);
-        ***REMOVED***);
+              `${err.message}`,
+          });
+        });
       this.loading = false;
-    ***REMOVED***,
-  ***REMOVED***,
-***REMOVED***;
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

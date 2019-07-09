@@ -27,16 +27,7 @@
     >
       <q-list>
         <q-item-label header>Navigation</q-item-label>
-
-        <q-item to="/" exact>
-          <q-item-section avatar>
-            <q-icon name="home" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Home</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item to="/about" exact>
+        <q-item to="/tool" exact>
           <q-item-section avatar>
             <q-icon name="info" />
           </q-item-section>
@@ -44,25 +35,18 @@
             <q-item-label>About</q-item-label>
           </q-item-section>
         </q-item>
-
-        <q-item-label header>Document List</q-item-label>
-
-        <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="school" />
-          </q-item-section>
+      </q-list>
+      <q-list dense separator bordered class="bg-grey-1">
+        <q-item clickable
+          v-ripple v-for="(item, key) in docStats" 
+          :key="`doc_${key}`"
+        >
           <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item v-for="(item, key) in docStats" :key="`doc_${key}`">
-          <q-item-section avatar>
-            <q-icon name="school" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{ key }}</q-item-label>
-            <q-item-label caption>{{ item.stat }}</q-item-label>
+            <q-item-label>{{ key }} 
+              <q-badge color="grey-5">
+                {{ item.stat }}
+              </q-badge>
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -104,7 +88,7 @@ export default {
   methods: {
     logout() {
       this.$auth.signOut().then(() => {
-        this.$router.replace('login');
+        this.$router.push('login');
       });
     },
     fetchDocStats() {

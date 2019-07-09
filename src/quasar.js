@@ -20,6 +20,8 @@ import {
   QItemLabel,
   QInput,
   Dialog,
+  QBadge,
+  Ripple,
 } from 'quasar';
 
 Vue.use(Quasar, {
@@ -39,8 +41,10 @@ Vue.use(Quasar, {
     QItemSection,
     QItemLabel,
     QInput,
+    QBadge,
   },
   directives: {
+    Ripple,
   },
   plugins: {
     Dialog,

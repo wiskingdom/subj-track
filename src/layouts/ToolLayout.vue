@@ -97,6 +97,7 @@
 
     <q-page-container>
       <p>***REMOVED******REMOVED*** userObj ***REMOVED******REMOVED***</p>
+      <p>***REMOVED******REMOVED*** docList ***REMOVED******REMOVED***</p>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -116,9 +117,8 @@ export default ***REMOVED***
     userEmail() ***REMOVED***
       return this.$auth.currentUser.email;
     ***REMOVED***,
-    statData() ***REMOVED***
-      var rootRef = this.$db.ref();
-      return this.$db.ref('stat').isEqual(rootRef.child('stat'));
+    docList() ***REMOVED***
+      return this.$store.getters.docList;
     ***REMOVED***,
   ***REMOVED***,
   methods: ***REMOVED***
@@ -139,6 +139,13 @@ export default ***REMOVED***
         this.userObj = dataSnapshot;
       ***REMOVED***);
     ***REMOVED***,
+    fetchDocList() ***REMOVED***
+      this.$store.dispatch('fetchDocList');
+    ***REMOVED***
   ***REMOVED***,
+  created() ***REMOVED***
+    this.setUser();
+    this.fetchDocList();
+  ***REMOVED***
 ***REMOVED***;
 </script>

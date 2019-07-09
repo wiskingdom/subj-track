@@ -3,7 +3,7 @@
     <h5 class="login-title text-center" >LOGIN</h5>
     <div class="q-gutter-md">
       <div class="row justify-center">
-        <div class="col-xs-5">
+        <div class="col-md-5">
           <q-input
             outlined
             type="email"
@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="row justify-center">
-        <div class="col-xs-5">
+        <div class="col-md-5">
           <q-input
             outlined
             type="password"
@@ -35,6 +35,7 @@ export default ***REMOVED***
   name: 'login',
   data() ***REMOVED***
     return ***REMOVED***
+      // information only for this component.
       user: ***REMOVED***
         email: '',
         password: '',

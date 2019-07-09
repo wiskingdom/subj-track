@@ -47,7 +47,7 @@ export default {
       this.$auth
         .signInWithEmailAndPassword(this.user.email, this.user.password)
         .then(() => {
-          this.$router.replace('tool');
+          this.$router.push('tool');
         })
         .catch((err) => {
           this.$q.dialog({

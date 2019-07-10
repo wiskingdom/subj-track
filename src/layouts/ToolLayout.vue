@@ -25,7 +25,7 @@
       bordered
       content-class="bg-grey-2"
     >
-      <q-select v-model="selectedDocType"
+      <q-select v-model="selectModel"
         @input="selecteDocs"
         filled
         dense
@@ -57,9 +57,9 @@
 
     <q-page-container>
       <!-- 실행 결과 -->
-      <p>{{ selectedDocType }}</p>
-      <p>{{ docStats }}</p>
-      <p>{{ selectedDocs }}</p>
+      <p>docStats:<br> {{ docStats }}</p>
+      <p>selectedDocType:<br> {{ selectedDocType }}</p>
+      <p>selectedDocs:<br> {{ selectedDocs }}</p>
 
       <router-view />
     </q-page-container>
@@ -73,6 +73,7 @@ export default {
   data() {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
+      selectModel: '',
     };
   },
 

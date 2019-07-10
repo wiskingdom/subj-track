@@ -52,8 +52,7 @@ export default {
         .catch((err) => {
           this.$q.dialog({
             title: 'Error',
-            message:
-              `${err.message}`,
+            message: `${err.message}`,
           });
         });
       this.loading = false;

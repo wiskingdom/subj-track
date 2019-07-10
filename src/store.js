@@ -10,7 +10,9 @@ export default new Vuex.Store({
   state: {
     docStats: [], // store <- firebase
     docTypes: [], // ToolLayout <- store [computed]
-    selectedDocs: [], // ToolLayout <-> store [computed] -> firebase
+    selectedDocType: '', // ToolLayout <-> store [computed]
+    selectedDocs: [], // ToolLayout <-> store [computed]
+    selectedDoc: '', // ToolLayout <-> store [computed] -> firebase
   },
   mutations: {
     setDocStats(state, payload) {
@@ -21,6 +23,12 @@ export default new Vuex.Store({
     },
     setSelectedDocs(state, payload) {
       state.selectedDocs = payload;
+    },
+    setSelectedDoc(state, payload) {
+      state.selectedDoc = payload;
+    },
+    setSelectedDocType(state, payload) {
+      state.selectedDocType = payload;
     },
   },
   actions: {
@@ -47,10 +55,22 @@ export default new Vuex.Store({
       }, {});
       commit('setSelectedDocs', docsObj);
     },
+    selecteDoc({ commit }, payload) {
+      commit('setSelectedDoc', payload);
+    },
+    selecteDocType({ commit }, payload) {
+      commit('setSelectedDocType', payload);
+    },
+    selectDocsByDoc({ commit, state }, payload) {
+      const docType = state.docStats.filter(item => item[0] === payload)[0];
+      commit('setSelectedDocType', docType);
+    },
   },
   getters: {
     docStats: state => state.docStats,
     docTypes: state => state.docTypes,
+    selectedDocType: state => state.selectedDocType,
     selectedDocs: state => state.selectedDocs,
+    selectedDoc: state => state.selectedDoc,
   },
 });

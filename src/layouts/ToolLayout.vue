@@ -25,7 +25,7 @@
       bordered
       content-class="bg-grey-2"
     >
-      <q-select v-model="selectedFolder"
+      <q-select v-model="selectedDocType"
         @input="selecteDocs"
         filled
         dense
@@ -41,6 +41,7 @@
       <q-list dense separator bordered class="bg-grey-1">
         <q-item clickable
           v-ripple v-for="(item, key) in selectedDocs"
+          :to="`/tool/doc/${key}`"
           :key="`doc_${key}`"
         >
           <q-item-section>
@@ -53,10 +54,13 @@
         </q-item>
       </q-list>
     </q-drawer>
-    <!-- 실행 결과 -->
+
     <q-page-container>
-      <p>{{ selectedFolder }}</p>
+      <!-- 실행 결과 -->
+      <p>{{ selectedDocType }}</p>
+      <p>{{ docStats }}</p>
       <p>{{ selectedDocs }}</p>
+
       <router-view />
     </q-page-container>
   </q-layout>
@@ -69,7 +73,6 @@ export default {
   data() {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
-      selectedFolder: { value: null },
     };
   },
 
@@ -93,6 +96,9 @@ export default {
     selectedDocs() {
       return this.$store.getters.selectedDocs;
     },
+    selectedDocType() {
+      return this.$store.getters.selectedDocType;
+    },
   },
 
   methods: {
@@ -106,12 +112,15 @@ export default {
     },
     selecteDocs(payload) {
       this.$store.dispatch('selecteDocs', payload);
+      this.$store.dispatch('selecteDocType', payload);
     },
-    onChange(event) {
+    selecteDocType(payload) {
+      this.$store.dispatch('selecteDocType', payload);
+    },
+    dialog(value) {
       this.$q.dialog({
-        title: 'Error',
-        message:
-              `${event}`,
+        title: 'Log',
+        message: `${value}`,
       });
     },
   },

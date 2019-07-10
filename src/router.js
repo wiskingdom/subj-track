@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import ToolLayout from './layouts/ToolLayout.vue';
 import Login from './views/Login.vue';
 import ToolAbout from './views/ToolAbout.vue';
+import DocLayout from './layouts/DocLayout.vue';
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
           path: 'about',
           name: 'about',
           component: ToolAbout,
+        },
+        {
+          path: 'doc/:id',
+          name: 'doc',
+          component: DocLayout,
         },
       ],
     },

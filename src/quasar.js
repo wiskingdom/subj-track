@@ -19,8 +19,9 @@ import {
   QItemSection,
   QItemLabel,
   QInput,
-  Dialog,
   QBadge,
+  QSelect,
+  Dialog,
   Ripple,
 } from 'quasar';
 
@@ -42,6 +43,7 @@ Vue.use(Quasar, {
     QItemLabel,
     QInput,
     QBadge,
+    QSelect,
   },
   directives: {
     Ripple,

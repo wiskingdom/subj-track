@@ -25,24 +25,26 @@
       bordered
       content-class="bg-grey-2"
     >
-      <q-list>
-        <q-item-label header>Navigation</q-item-label>
-        <q-item to="/tool" exact>
-          <q-item-section avatar>
-            <q-icon name="info" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>About</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <q-select v-model="selectedFolder"
+        @input="selecteDocs"
+        filled
+        dense
+        options-dense
+        bg-color="grey-2"
+        :options="docTypes"
+        emit-value
+        label="Select a folder">
+        <template v-slot:prepend>
+          <q-icon name="folder" />
+        </template>
+      </q-select>
       <q-list dense separator bordered class="bg-grey-1">
         <q-item clickable
-          v-ripple v-for="(item, key) in docStats" 
+          v-ripple v-for="(item, key) in selectedDocs"
           :key="`doc_${key}`"
         >
           <q-item-section>
-            <q-item-label>{{ key }} 
+            <q-item-label>{{ key }}
               <q-badge color="grey-5">
                 {{ item.stat }}
               </q-badge>
@@ -51,9 +53,10 @@
         </q-item>
       </q-list>
     </q-drawer>
-
+    <!-- 실행 결과 -->
     <q-page-container>
-      <p>{{ docStats }}</p>
+      <p>{{ selectedFolder }}</p>
+      <p>{{ selectedDocs }}</p>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -66,6 +69,7 @@ export default {
   data() {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
+      selectedFolder: { value: null },
     };
   },
 
@@ -83,16 +87,32 @@ export default {
     docStats() {
       return this.$store.getters.docStats;
     },
+    docTypes() {
+      return this.$store.getters.docTypes;
+    },
+    selectedDocs() {
+      return this.$store.getters.selectedDocs;
+    },
   },
 
   methods: {
     logout() {
       this.$auth.signOut().then(() => {
-        this.$router.push('login');
+        this.$router.push('/login');
       });
     },
     fetchDocStats() {
       this.$store.dispatch('fetchDocStats');
+    },
+    selecteDocs(payload) {
+      this.$store.dispatch('selecteDocs', payload);
+    },
+    onChange(event) {
+      this.$q.dialog({
+        title: 'Error',
+        message:
+              `${event}`,
+      });
     },
   },
 

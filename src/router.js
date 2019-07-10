@@ -2,8 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import ToolLayout from './layouts/ToolLayout.vue';
 import Login from './views/Login.vue';
-import Home from './views/Home.vue';
-import About from './views/About.vue';
+import ToolAbout from './views/ToolAbout.vue';
 
 Vue.use(Router);
 
@@ -12,11 +11,11 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: '/login',
+      redirect: '/tool',
     },
     {
       path: '/',
-      redirect: '/login',
+      redirect: '/tool',
     },
     {
       path: '/login',
@@ -29,13 +28,12 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'home',
-          component: Home,
+          redirect: 'about',
         },
         {
-          path: '/about',
+          path: 'about',
           name: 'about',
-          component: About,
+          component: ToolAbout,
         },
       ],
     },

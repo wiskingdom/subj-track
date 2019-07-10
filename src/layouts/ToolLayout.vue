@@ -25,8 +25,9 @@
       bordered
       content-class="bg-grey-2"
     >
-      <q-select v-model="selectModel"
-        @input="selecteDocs"
+      <q-select
+        :value="selectedDocType"
+        @input="selectDocType"
         filled
         dense
         options-dense
@@ -73,7 +74,6 @@ export default {
   data() {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
-      selectModel: '',
     };
   },
 
@@ -108,15 +108,8 @@ export default {
         this.$router.push('/login');
       });
     },
-    fetchDocStats() {
-      this.$store.dispatch('fetchDocStats');
-    },
-    selecteDocs(payload) {
-      this.$store.dispatch('selecteDocs', payload);
-      this.$store.dispatch('selecteDocType', payload);
-    },
-    selecteDocType(payload) {
-      this.$store.dispatch('selecteDocType', payload);
+    selectDocType(docType) {
+      this.$store.dispatch('selectDocType', docType);
     },
     dialog(value) {
       this.$q.dialog({
@@ -127,7 +120,10 @@ export default {
   },
 
   created() {
-    this.fetchDocStats();
+    if (this.$store.getters.docStats.length === 0) {
+      this.$store.dispatch('fetchDocStats').then(() => {
+      });
+    }
   },
 };
 </script>

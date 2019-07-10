@@ -4,8 +4,8 @@
     </q-header>
     <!-- 실행 결과 -->
     <q-page-container>
-      <p>{{ this.$route.params.id }}</p>
-      <p>{{ selectedDoc }}</p>
+      <p>this.$route.params.id: <br>{{ this.$route.params.id }}</p>
+      <p>selectedDoc: <br>{{ selectedDoc }}</p>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -18,7 +18,6 @@ export default {
   data() {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
-      selectedFolder: { value: null },
     };
   },
 
@@ -29,12 +28,8 @@ export default {
   },
 
   methods: {
-    selecteDoc(payload) {
-      this.$store.dispatch('selecteDoc', payload);
-    },
-    selecteDocs(payload) {
-      this.$store.dispatch('selecteDocs', payload);
-      this.$store.dispatch('selecteDocType', payload);
+    fetchDocStats() {
+      this.$store.dispatch('fetchDocStats');
     },
     dialog(value) {
       this.$q.dialog({
@@ -45,8 +40,17 @@ export default {
   },
 
   created() {
-    this.selecteDoc(this.$route.params.id);
-    this.selecteDocs(this.$route.params.id);
+    if (this.$store.getters.docStats.length === 0) {
+      this.$store.dispatch('fetchDocStats').then(() => {
+        this.$store.dispatch('selectDoc', this.$route.params.id);
+      });
+    } else {
+      this.$store.dispatch('selectDoc', this.$route.params.id);
+    }
+  },
+
+  updated() {
+    this.$store.dispatch('selectDoc', this.$route.params.id);
   },
 };
 </script>

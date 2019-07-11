@@ -46,6 +46,8 @@ export default new Router({
               store.dispatch('fetchDocStats').then(() => {
                 next();
               });
+            } else {
+              next();
             }
           },
         },

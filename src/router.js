@@ -4,6 +4,7 @@ import ToolLayout from './layouts/ToolLayout.vue';
 import Login from './views/Login.vue';
 import ToolAbout from './views/ToolAbout.vue';
 import DocLayout from './layouts/DocLayout.vue';
+import store from './store';
 
 Vue.use(Router);
 
@@ -40,6 +41,13 @@ export default new Router({
           path: 'doc/:id',
           name: 'doc',
           component: DocLayout,
+          beforeEnter(_to, _from, next) {
+            if (store.getters.docStats.length === 0) {
+              store.dispatch('fetchDocStats').then(() => {
+                next();
+              });
+            }
+          },
         },
       ],
     },

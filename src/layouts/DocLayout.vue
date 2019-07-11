@@ -26,10 +26,13 @@ export default {
       return this.$store.getters.selectedDoc;
     },
   },
+  watch: {
+    $route: 'selectDoc',
+  },
 
   methods: {
-    fetchDocStats() {
-      this.$store.dispatch('fetchDocStats');
+    selectDoc() {
+      this.$store.dispatch('selectDoc', this.$route.params.id);
     },
     dialog(value) {
       this.$q.dialog({
@@ -40,17 +43,7 @@ export default {
   },
 
   created() {
-    if (this.$store.getters.docStats.length === 0) {
-      this.$store.dispatch('fetchDocStats').then(() => {
-        this.$store.dispatch('selectDoc', this.$route.params.id);
-      });
-    } else {
-      this.$store.dispatch('selectDoc', this.$route.params.id);
-    }
-  },
-
-  updated() {
-    this.$store.dispatch('selectDoc', this.$route.params.id);
+    this.selectDoc();
   },
 };
 </script>

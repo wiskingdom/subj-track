@@ -1,12 +1,24 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="glossy">
-    </q-header>
+  <q-layout view="hHh lpR fFf">
+    <q-drawer v-model="right"
+      side="right"
+      behavior="desktop"
+      bordered
+      content-class="bg-grey-2"
+      :width="350"
+    >
+      <div style="padding: 60px 10px;">
+        <p>startdfsadfsadfsadfsassdafsdfs<br>dfsdfsdfssdfsdfsdfsdfsdfsdfsdfsdfs
+      dsdfsdfdsdfsdfsdfsdfsdfsdfsdfsfdahdfklsajdf;lkjas<br>df;lkjas;dfkj;<br>
+      aslkdjf</p>
+      <router-view />
+      </div>
+    </q-drawer>
+
     <!-- 실행 결과 -->
-    <q-page-container>
+    <q-page-container margin>
       <p>this.$route.params.id: <br>{{ this.$route.params.id }}</p>
       <p>selectedDoc: <br>{{ selectedDoc }}</p>
-      <router-view />
     </q-page-container>
   </q-layout>
 </template>
@@ -17,7 +29,7 @@ export default {
 
   data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop,
+      right: true,
     };
   },
 

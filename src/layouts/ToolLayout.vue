@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="HHh Lpr lFf">
     <q-header elevated class="glossy">
       <q-toolbar>
         <q-btn
@@ -8,7 +8,7 @@
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
           aria-label="Menu"
-          icon="menu"
+          icon="folder"
         />
 
         <q-toolbar-title>
@@ -25,6 +25,7 @@
       bordered
       content-class="bg-grey-2"
     >
+    <div style="padding: 10px 10px;">
       <q-select
         :value="selectedDocType"
         @input="selectDocType"
@@ -35,9 +36,6 @@
         :options="docTypes"
         emit-value
         label="Select a folder">
-        <template v-slot:prepend>
-          <q-icon name="folder" />
-        </template>
       </q-select>
       <q-list dense separator bordered class="bg-grey-1">
         <q-item clickable
@@ -54,14 +52,15 @@
           </q-item-section>
         </q-item>
       </q-list>
+    </div>
     </q-drawer>
 
     <q-page-container>
-      <!-- 실행 결과 -->
+      <!-- 실행 결과
       <p>docStats:<br> {{ docStats }}</p>
       <p>selectedDocType:<br> {{ selectedDocType }}</p>
       <p>selectedDocs:<br> {{ selectedDocs }}</p>
-
+      -->
       <router-view />
     </q-page-container>
   </q-layout>

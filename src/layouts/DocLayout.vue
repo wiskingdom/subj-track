@@ -7,7 +7,7 @@
       content-class="bg-grey-2"
       :width="350"
     >
-      <div style="padding: 60px 10px;">
+      <div class="q-gutter-md" style="padding: 60px 10px;">
         <p>startdfsadfsadfsadfsassdafsdfs<br>dfsdfsdfssdfsdfsdfsdfsdfsdfsdfsdfs
       dsdfsdfdsdfsdfsdfsdfsdfsdfsdfsfdahdfklsajdf;lkjas<br>df;lkjas;dfkj;<br>
       aslkdjf</p>
@@ -16,9 +16,11 @@
     </q-drawer>
 
     <!-- 실행 결과 -->
-    <q-page-container margin>
-      <p>this.$route.params.id: <br>{{ this.$route.params.id }}</p>
-      <p>selectedDoc: <br>{{ selectedDoc }}</p>
+    <q-page-container>
+      <div class="q-gutter-md" style="padding: 10px 10px;">
+        <p>this.$route.params.id: <br>{{ this.$route.params.id }}</p>
+        <p>selectedDoc: <br>{{ selectedDoc }}</p>
+      </div>
     </q-page-container>
   </q-layout>
 </template>
@@ -39,7 +41,11 @@ export default {
     },
   },
   watch: {
-    $route: 'selectDoc',
+    $route: {
+      handler() {
+        this.selectDoc();
+      },
+    },
   },
 
   methods: {

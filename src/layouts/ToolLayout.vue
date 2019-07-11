@@ -1,6 +1,6 @@
 <template>
   <q-layout view="HHh Lpr lFf">
-    <q-header elevated class="glossy">
+    <q-header bordered class="bg-grey-2 text-primary">
       <q-toolbar>
         <q-btn
           flat
@@ -8,15 +8,18 @@
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
           aria-label="Menu"
-          icon="folder"
+          icon="menu"
         />
 
         <q-toolbar-title>
-          Subject Track
+          TRACK
         </q-toolbar-title>
 
-        <div>{{ userEmail }}</div>
-        <q-btn color="secondary" @click="logout" :label="logBTN" style="margin-left: 10px"/>
+        <div v-show="userEmail">
+          <q-icon :name="selectedMood" />
+          {{ userEmail }}
+        </div>
+        <q-btn color="primary" @click="logout" :label="logBTN" style="margin-left: 10px"/>
       </q-toolbar>
     </q-header>
 
@@ -24,8 +27,9 @@
       v-model="leftDrawerOpen"
       bordered
       content-class="bg-grey-2"
+      :width="220"
     >
-    <div style="padding: 10px 10px;">
+    <div class="q-gutter-md" style="padding: 10px 10px;">
       <q-select
         :value="selectedDocType"
         @input="selectDocType"
@@ -77,6 +81,17 @@ export default {
   },
 
   computed: {
+    selectedMood() {
+      return [
+        'mood',
+        'mood_bad',
+        'sentiment_dissatisfied',
+        'sentiment_satisfied',
+        'sentiment_very_dissatisfied',
+        'sentiment_very_satisfied',
+        'airline_seat_individual_suite',
+      ].sort(() => Math.random() - 0.5)[0];
+    },
     currentUser() {
       return this.$auth.currentUser;
     },
@@ -116,6 +131,9 @@ export default {
         message: `${value}`,
       });
     },
+  },
+  watch: {
+
   },
 
   created() {

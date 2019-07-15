@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  name: 'DocLayout',
+  name: 'AnnoLayout',
 
   data() {
     return {

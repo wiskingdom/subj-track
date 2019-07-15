@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import ToolLayout from './layouts/ToolLayout.vue';
+import MainLayout from './layouts/MainLayout.vue';
 import Login from './views/Login.vue';
-import ToolAbout from './views/ToolAbout.vue';
-import DocLayout from './layouts/DocLayout.vue';
+import MainAbout from './views/MainAbout.vue';
+import AnnoLayout from './layouts/AnnoLayout.vue';
 import store from './store';
 
 Vue.use(Router);
@@ -13,11 +13,11 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: '/tool',
+      redirect: '/main',
     },
     {
       path: '/',
-      redirect: '/tool',
+      redirect: '/main',
     },
     {
       path: '/login',
@@ -25,8 +25,8 @@ export default new Router({
       component: Login,
     },
     {
-      path: '/tool',
-      component: ToolLayout,
+      path: '/main',
+      component: MainLayout,
       children: [
         {
           path: '',
@@ -35,12 +35,12 @@ export default new Router({
         {
           path: 'about',
           name: 'about',
-          component: ToolAbout,
+          component: MainAbout,
         },
         {
-          path: 'doc/:id',
-          name: 'doc',
-          component: DocLayout,
+          path: ':id',
+          name: 'anno',
+          component: AnnoLayout,
           beforeEnter(_to, _from, next) {
             if (store.getters.docStats.length === 0) {
               store.dispatch('fetchDocStats').then(() => {

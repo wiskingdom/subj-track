@@ -1,6 +1,8 @@
+/*
 import Vue from 'vue';
 import Vuex from 'vuex';
-import fireapp from './fireapp';
+import fireapp from '@/fireapp';
+import state from './state';
 
 const db = fireapp.database();
 
@@ -78,3 +80,4 @@ export default new Vuex.Store({
     selectedDoc: state => state.selectedDoc,
   },
 });
+*/

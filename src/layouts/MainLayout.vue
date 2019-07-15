@@ -72,7 +72,7 @@
 
 <script>
 export default {
-  name: 'MainToolLayout',
+  name: 'MainLayout',
 
   data() {
     return {

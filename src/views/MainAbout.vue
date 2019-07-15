@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  name: 'PageHome',
+  name: 'MainAbout',
 };
 </script>

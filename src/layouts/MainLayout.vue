@@ -69,11 +69,14 @@
     </q-drawer>
 
     <q-page-container>
-      <!-- 실행 결과
-      <p>docStats:<br> {{ docStats }}</p>
-      <p>selectedDocType:<br> {{ selectedDocType }}</p>
-      <p>selectedDocs:<br> {{ selectedDocs }}</p>
-      -->
+      <!-- 실행 결과 -->
+
+      <p>docIndex:<br> {{ docIndex }}</p>
+      <p>docFolders:<br> {{ docFolders }}</p>
+      <p>isFetchedMain:<br> {{ isFetchedMain }}</p>
+      <p>theDocFolder:<br> {{ theDocFolder }}</p>
+      <p>theDoc:<br> {{ theDoc }}</p>
+
       <router-view />
     </q-page-container>
   </q-layout>

@@ -42,8 +42,8 @@ export default new Router({
           name: 'anno',
           component: AnnoLayout,
           beforeEnter(_to, _from, next) {
-            if (store.getters.docStats.length === 0) {
-              store.dispatch('fetchDocStats').then(() => {
+            if (!store.getters.isFetchedMain) {
+              store.dispatch('fetchMain').then(() => {
                 next();
               });
             } else {

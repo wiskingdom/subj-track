@@ -19,7 +19,7 @@
     <q-page-container>
       <div class="q-gutter-md" style="padding: 10px 10px;">
         <p>this.$route.params.id: <br>{{ this.$route.params.id }}</p>
-        <p>selectedDoc: <br>{{ selectedDoc }}</p>
+        <p>theDoc: <br>{{ theDoc }}</p>
       </div>
     </q-page-container>
   </q-layout>
@@ -49,7 +49,7 @@ export default {
   watch: {
     $route: {
       handler() {
-        this.selectDoc();
+        this.pickDoc(this.$route.params.id);
       },
     },
   },
@@ -69,6 +69,7 @@ export default {
   },
 
   created() {
+    this.pickDoc(this.$route.params.id);
   },
 };
 </script>

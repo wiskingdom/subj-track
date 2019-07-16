@@ -146,9 +146,9 @@ export default {
   },
 
   created() {
-    if (!this.mainInit) {
+    if (!this.isFetchedMain) {
       this.fetchMain().then((bool) => {
-        this.checkMainInit(bool);
+        this.checkFechedMain(bool);
       });
     }
   },

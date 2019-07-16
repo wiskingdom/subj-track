@@ -56,7 +56,6 @@ export default {
 
   methods: {
     ...mapActions([
-      'fetchMain',
       'checkFechedMain',
       'pickDocFolder',
       'pickDoc',

@@ -4,13 +4,13 @@ const db = fireapp.database();
 
 // for main layout
 const fetchMain = ({ commit }) => new Promise((resolve) => {
-  db.ref('/main/docIndex').once('value').then((snapshot) => {
-    commit('DOC_INDEX', snapshot.val());
+  db.ref('/main/docIndex').once('value').then((docIndexSnap) => {
+    commit('DOC_INDEX', docIndexSnap.val());
+    db.ref('/main/docFolders').once('value').then((docFoldersSnap) => {
+      commit('DOC_FOLDERS', docFoldersSnap.val());
+      resolve(true);
+    });
   });
-  db.ref('/main/docFolders').once('value').then((snapshot) => {
-    commit('DOC_FOLDERS', snapshot.val());
-  });
-  resolve(true);
 });
 
 const checkFechedMain = ({ commit }, bool) => {

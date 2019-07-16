@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'AnnoLayout',
 
@@ -36,9 +38,13 @@ export default {
   },
 
   computed: {
-    selectedDoc() {
-      return this.$store.getters.selectedDoc;
-    },
+    ...mapGetters([
+      'isFetchedMain',
+      'docIndex',
+      'docFolders',
+      'theDocFolder',
+      'theDoc',
+    ]),
   },
   watch: {
     $route: {
@@ -49,9 +55,12 @@ export default {
   },
 
   methods: {
-    selectDoc() {
-      this.$store.dispatch('selectDoc', this.$route.params.id);
-    },
+    ...mapActions([
+      'fetchMain',
+      'checkFechedMain',
+      'pickDocFolder',
+      'pickDoc',
+    ]),
     dialog(value) {
       this.$q.dialog({
         title: 'Log',
@@ -61,7 +70,6 @@ export default {
   },
 
   created() {
-    this.selectDoc();
   },
 };
 </script>

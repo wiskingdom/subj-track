@@ -19,7 +19,12 @@
           <q-icon :name="selectedMood" />
           {{ userEmail }}
         </div>
-        <q-btn color="primary" @click="logout" :label="logBTN" style="margin-left: 10px"/>
+        <q-btn
+          color="primary"
+          @click="logout"
+          :label="logBTN"
+          style="margin-left: 10px"
+        />
       </q-toolbar>
     </q-header>
 
@@ -31,26 +36,30 @@
     >
     <div class="q-gutter-md" style="padding: 10px 10px;">
       <q-select
-        :value="selectedDocType"
-        @input="selectDocType"
+        :value="theDocFolder"
+        @input="pickDocFolder"
         filled
         dense
         options-dense
         bg-color="grey-2"
-        :options="docTypes"
+        :options="docFolders"
         emit-value
-        label="Select a folder">
+        label="Select a folder"
+      >
       </q-select>
       <q-list dense separator bordered class="bg-grey-1">
-        <q-item clickable
-          v-ripple v-for="(item, key) in selectedDocs"
-          :to="`/tool/doc/${key}`"
-          :key="`doc_${key}`"
+        <q-item
+          clickable
+          v-ripple
+          v-for="(item, key) in docIndex"
+          :to="`/main/${key}`"
+          :key="`${key}`"
+          v-show="item.folder === theDocFolder"
         >
           <q-item-section>
             <q-item-label>{{ key }}
               <q-badge color="grey-5">
-                {{ item.stat }}
+                {{ item.state }}
               </q-badge>
             </q-item-label>
           </q-item-section>
@@ -71,6 +80,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'MainLayout',
 
@@ -81,6 +92,16 @@ export default {
   },
 
   computed: {
+    currentUser() {
+      return this.$auth.currentUser;
+    },
+    userEmail() {
+      const { email } = this.currentUser ? this.currentUser : '';
+      return email;
+    },
+    logBTN() {
+      return this.currentUser ? 'logout' : 'login';
+    },
     selectedMood() {
       return [
         'mood',
@@ -92,38 +113,26 @@ export default {
         'airline_seat_individual_suite',
       ].sort(() => Math.random() - 0.5)[0];
     },
-    currentUser() {
-      return this.$auth.currentUser;
-    },
-    userEmail() {
-      const { email } = this.currentUser ? this.currentUser : '';
-      return email;
-    },
-    logBTN() {
-      return this.currentUser ? 'logout' : 'login';
-    },
-    docStats() {
-      return this.$store.getters.docStats;
-    },
-    docTypes() {
-      return this.$store.getters.docTypes;
-    },
-    selectedDocs() {
-      return this.$store.getters.selectedDocs;
-    },
-    selectedDocType() {
-      return this.$store.getters.selectedDocType;
-    },
+    ...mapGetters([
+      'isFetchedMain',
+      'docIndex',
+      'docFolders',
+      'theDocFolder',
+      'theDoc',
+    ]),
   },
 
   methods: {
+    ...mapActions([
+      'fetchMain',
+      'checkFechedMain',
+      'pickDocFolder',
+      'pickDoc',
+    ]),
     logout() {
       this.$auth.signOut().then(() => {
         this.$router.push('/login');
       });
-    },
-    selectDocType(docType) {
-      this.$store.dispatch('selectDocType', docType);
     },
     dialog(value) {
       this.$q.dialog({
@@ -132,13 +141,11 @@ export default {
       });
     },
   },
-  watch: {
-
-  },
 
   created() {
-    if (this.$store.getters.docStats.length === 0) {
-      this.$store.dispatch('fetchDocStats').then(() => {
+    if (!this.mainInit) {
+      this.fetchMain().then((bool) => {
+        this.checkMainInit(bool);
       });
     }
   },

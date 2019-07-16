@@ -1,18 +1,18 @@
 // for main layout
-const mainInit = state => state.mainInit;
+const isFetchedMain = state => state.isFetchedMain;
 const docIndex = state => state.docStats;
 const docFolders = state => state.docTypes;
 const theDocFolder = state => state.theDocFolder;
 const theDoc = state => state.theDoc;
 
 // for anno tool layout
-const annoInit = state => state.annoInit;
+const isFetchedAnno = state => state.isFetchedAnno;
 
 export {
-  mainInit,
+  isFetchedMain,
   docIndex,
   docFolders,
   theDocFolder,
   theDoc,
-  annoInit
+  isFetchedAnno,
 };

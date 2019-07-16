@@ -1,11 +1,11 @@
 export default {
   // for main layout
-  mainInit: false,
+  isFetchedMain: false,
   docIndex: {},
   docFolders: [],
   theDocFolder: '',
   theDoc: '',
 
   // for anno tool layout
-  annoInit: false,
+  isFetchedAnno: false,
 };

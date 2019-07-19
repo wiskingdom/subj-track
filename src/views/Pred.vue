@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  name: 'MainAbout',
+  name: 'Pred',
 };
 </script>

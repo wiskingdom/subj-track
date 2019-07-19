@@ -15,11 +15,13 @@
       </div>
     </q-drawer>
 
-    <!-- 실행 결과 -->
     <q-page-container>
       <div class="q-gutter-md" style="padding: 10px 10px;">
+        <!-- 실행 결과 -->
         <p>this.$route.params.id: <br>{{ this.$route.params.id }}</p>
         <p>theDoc: <br>{{ theDoc }}</p>
+        <p>theDocFolder: <br>{{ theDocFolder }}</p>
+
       </div>
     </q-page-container>
   </q-layout>
@@ -59,6 +61,7 @@ export default {
       'checkFechedMain',
       'pickDocFolder',
       'pickDoc',
+      'assignFolderFromDoc',
     ]),
     dialog(value) {
       this.$q.dialog({
@@ -69,7 +72,8 @@ export default {
   },
 
   created() {
-    this.pickDoc(this.$route.params.id);
+    this.pickDoc(this.$route.params.id)
+      .then(this.assignFolderFromDoc);
   },
 };
 </script>

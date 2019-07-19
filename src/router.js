@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import MainLayout from './layouts/MainLayout.vue';
 import Login from './views/Login.vue';
+import MainLayout from './layouts/MainLayout.vue';
 import MainAbout from './views/MainAbout.vue';
 import AnnoLayout from './layouts/AnnoLayout.vue';
+import Pred from './views/Pred.vue';
 import store from './store';
 
 Vue.use(Router);
@@ -50,6 +51,13 @@ export default new Router({
               next();
             }
           },
+          children: [
+            {
+              path: ':id',
+              name: 'pred',
+              componant: Pred,
+            },
+          ],
         },
       ],
     },

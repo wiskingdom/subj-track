@@ -21,8 +21,14 @@ const pickDocFolder = ({ commit }, docFolder) => {
   commit('THE_DOC_FOLDER', docFolder);
 };
 
-const pickDoc = ({ commit }, doc) => {
+const pickDoc = ({ commit }, doc) => new Promise((resolve) => {
   commit('THE_DOC', doc);
+  resolve();
+});
+
+const assignFolderFromDoc = ({ state, dispatch }) => {
+  const theDocFolder = state.docIndex[state.theDoc].folder;
+  dispatch('pickDocFolder', theDocFolder);
 };
 
 // for anno tool layout
@@ -35,5 +41,6 @@ export {
   checkFechedMain,
   pickDocFolder,
   pickDoc,
+  assignFolderFromDoc,
   checkFechedAnno,
 };

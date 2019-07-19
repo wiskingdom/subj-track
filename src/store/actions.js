@@ -3,44 +3,90 @@ import fireapp from '@/fireapp';
 const db = fireapp.database();
 
 // for main layout
-const fetchMain = ({ commit }) => new Promise((resolve) => {
-  db.ref('/main/docIndex').once('value').then((docIndexSnap) => {
-    commit('DOC_INDEX', docIndexSnap.val());
-    db.ref('/main/docFolders').once('value').then((docFoldersSnap) => {
-      commit('DOC_FOLDERS', docFoldersSnap.val());
-      resolve(true);
-    });
+const fetchDocIndex = ({ commit }) => new Promise((resolve) => {
+  db.ref('/main/docIndex').once('value').then((snap) => {
+    commit('DOC_INDEX', snap.val());
+    resolve();
   });
 });
-
-const checkFechedMain = ({ commit }, bool) => {
-  commit('IS_FETCHED_MAIN', bool);
+const fetchDocFolders = ({ commit }) => new Promise((resolve) => {
+  db.ref('/main/docFolders').once('value').then((snap) => {
+    commit('DOC_FOLDERS', snap.val());
+    resolve();
+  });
+});
+const checkFechedMain = ({ commit }) => {
+  commit('IS_FETCHED_MAIN', true);
 };
-
 const pickDocFolder = ({ commit }, docFolder) => {
   commit('THE_DOC_FOLDER', docFolder);
 };
-
-const pickDoc = ({ commit }, doc) => new Promise((resolve) => {
-  commit('THE_DOC', doc);
+const pickDoc = ({ commit }, docId) => new Promise((resolve) => {
+  commit('THE_DOC_ID', docId);
   resolve();
 });
-
-const assignFolderFromDoc = ({ state, dispatch }) => {
-  const theDocFolder = state.docIndex[state.theDoc].folder;
+const assignFolderFromDocId = ({ state, dispatch }) => {
+  const theDocFolder = state.docIndex[state.theDocId].folder;
   dispatch('pickDocFolder', theDocFolder);
 };
 
 // for anno tool layout
-const checkFechedAnno = ({ commit }, bool) => {
-  commit('IS_FETCHED_ANNO', bool);
+const checkFechedAnno = ({ commit }) => {
+  commit('IS_FETCHED_ANNO', true);
+};
+const fetchTheDoc = ({ state, commit }) => new Promise((resolve) => {
+  const { theDocId } = state;
+  db.ref(`/main/docs/${theDocId}/ses`).once('value').then((snap) => {
+    commit('THE_DOC', snap.val());
+    resolve();
+  });
+});
+const fetchTheDocAnno = ({ state, commit }) => new Promise((resolve) => {
+  const { theDocId } = state;
+  db.ref(`/main/docAnno/${theDocId}`).once('value').then((snap) => {
+    commit('THE_DOC_ANNO', snap.val());
+    resolve();
+  });
+});
+const fetchSubjTrack = ({ state, commit }) => new Promise((resolve) => {
+  const { theDocId } = state;
+  db.ref(`/main/subjTrack/${theDocId}`).once('value').then((snap) => {
+    commit('SUBJ_TRACK', snap.val());
+    resolve();
+  });
+});
+const fetchPredIndex = ({ state, commit }) => new Promise((resolve) => {
+  const { theDocId } = state;
+  db.ref(`/main/predIndex/${theDocId}`).once('value').then((snap) => {
+    commit('PRED_INDEX', snap.val());
+    resolve();
+  });
+});
+const fetchTheDocFolder = ({ state, commit }) => {
+  const { theDocId } = state;
+  db.ref(`/main/docIndex/${theDocId}/folder`).once('value').then((snap) => {
+    commit('THE_DOC_FOLDER', snap.val());
+  });
+};
+const fetchTheDocMeta = ({ state, commit }) => {
+  const { theDocId } = state;
+  db.ref(`/main/docMeta/${theDocId}`).once('value').then((snap) => {
+    commit('THE_DOC_META', snap.val());
+  });
 };
 
 export {
-  fetchMain,
+  fetchDocIndex,
+  fetchDocFolders,
   checkFechedMain,
   pickDocFolder,
   pickDoc,
-  assignFolderFromDoc,
+  assignFolderFromDocId,
   checkFechedAnno,
+  fetchTheDoc,
+  fetchTheDocAnno,
+  fetchSubjTrack,
+  fetchPredIndex,
+  fetchTheDocFolder,
+  fetchTheDocMeta,
 };

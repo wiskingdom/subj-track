@@ -4,8 +4,16 @@ export default {
   docIndex: {},
   docFolders: [],
   theDocFolder: '',
-  theDoc: '',
+  theDocId: '',
 
   // for anno tool layout
   isFetchedAnno: false,
+  theDoc: [],
+  theDocMeta: {},
+  theDocAnno: [],
+  subjTrack: {},
+  predIndex: {},
+  thePredId: 0,
+
+  // for anno tool view
 };

@@ -121,16 +121,18 @@ export default {
       'docIndex',
       'docFolders',
       'theDocFolder',
-      'theDoc',
+      'theDocId',
     ]),
   },
 
   methods: {
     ...mapActions([
-      'fetchMain',
+      'fetchDocIndex',
+      'fetchDocFolders',
       'checkFechedMain',
       'pickDocFolder',
       'pickDoc',
+      'assignFolderFromDocId',
     ]),
     logout() {
       this.$auth.signOut().then(() => {
@@ -146,9 +148,9 @@ export default {
   },
 
   created() {
-    if (!this.isFetchedMain) {
-      this.fetchMain().then(this.checkFechedMain);
-    }
+    this.fetchDocIndex()
+      .then(this.fetchDocFolders)
+      .then(this.checkFechedMain);
   },
 };
 </script>

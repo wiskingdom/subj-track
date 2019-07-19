@@ -5,7 +5,7 @@ import MainLayout from './layouts/MainLayout.vue';
 import MainAbout from './views/MainAbout.vue';
 import AnnoLayout from './layouts/AnnoLayout.vue';
 import Pred from './views/Pred.vue';
-import store from './store';
+// import store from './store';
 
 Vue.use(Router);
 
@@ -39,21 +39,12 @@ export default new Router({
           component: MainAbout,
         },
         {
-          path: ':id',
+          path: ':docId',
           name: 'anno',
           component: AnnoLayout,
-          beforeEnter(_to, _from, next) {
-            if (!store.getters.isFetchedMain) {
-              store.dispatch('fetchMain').then(() => {
-                next();
-              });
-            } else {
-              next();
-            }
-          },
           children: [
             {
-              path: ':id',
+              path: ':predId',
               name: 'pred',
               componant: Pred,
             },

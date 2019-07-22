@@ -74,6 +74,16 @@ const fetchTheDocMeta = ({ state, commit }) => {
     commit('THE_DOC_META', snap.val());
   });
 };
+const fetchSpeakerColor = ({ commit }) => {
+  db.ref('/main/speakerColor').once('value').then((snap) => {
+    commit('SPEAKER_COLOR', snap.val());
+  });
+};
+const tagChTopic = ({ commit, state }, { sId, chTopic }) => {
+  const { theDocId } = state;
+  db.ref(`/main/docAnno/${theDocId}/${sId}`).update({ chTopic });
+  commit('CH_TOPIC', { sId, chTopic });
+};
 
 export {
   fetchDocIndex,
@@ -89,4 +99,6 @@ export {
   fetchPredIndex,
   fetchTheDocFolder,
   fetchTheDocMeta,
+  fetchSpeakerColor,
+  tagChTopic,
 };

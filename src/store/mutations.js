@@ -37,6 +37,12 @@ const PRED_INDEX = (state, payload) => {
 const THE_PRED_ID = (state, payload) => {
   state.thePredId = payload;
 };
+const SPEAKER_COLOR = (state, payload) => {
+  state.speakerColor = payload;
+};
+const CH_TOPIC = (state, { sId, chTopic }) => {
+  state.theDocAnno[sId].chTopic = chTopic;
+};
 
 
 export {
@@ -52,4 +58,6 @@ export {
   SUBJ_TRACK,
   PRED_INDEX,
   THE_PRED_ID,
+  SPEAKER_COLOR,
+  CH_TOPIC,
 };

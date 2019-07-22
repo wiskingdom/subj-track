@@ -19,13 +19,46 @@
 
     <q-page-container>
       <div class="q-gutter-md" style="padding: 10px 10px;">
+
         <!-- 실행 결과
-        <p>theDoc: <br>{{ theDoc.slice(0, 3) }}</p>
         <p>theDocAnno: <br>{{ theDocAnno.slice(0, 3) }}</p>
+        <p>theDoc: <br>{{ theDoc.slice(0, 3) }}</p>
         <p>subjTrack: <br>{{ Object.entries(subjTrack).slice(0, 3) }}</p>
         <p>predIndex: <br>{{ Object.entries(predIndex).slice(0, 3) }}</p>
         <p>thePredId: <br>{{ thePredId }}</p>
         -->
+
+      <q-banner
+        rounded
+        class="bg-grey-1"
+        v-for="(s, sId) in theDoc"
+        :key="sId"
+      >
+        <template v-slot:avatar>
+          <q-avatar
+            square size="40px"
+            :color="theSpeakerColor(s.speaker)"
+          >
+            {{s.speaker}}
+          </q-avatar>
+        </template>
+        <q-badge color="primary"
+          v-show="chTopic(sId)"
+        >
+          New subsection
+        </q-badge>
+        <br v-show="chTopic(sId)">
+        <span
+          v-for="(token, tKey) in s.tokens"
+          :key="tKey"
+        >{{`${token.delim}${token.morph}`}}</span>
+        <template v-slot:action>
+          <q-btn
+            flat icon="directions"
+            @click="tagChTopic({ sId, chTopic: !chTopic(sId) })"
+          />
+        </template>
+      </q-banner>
 
       </div>
     </q-page-container>
@@ -54,6 +87,8 @@ export default {
       'subjTrack',
       'predIndex',
       'thePredId',
+      'chTopic',
+      'theSpeakerColor',
     ]),
   },
   watch: {
@@ -84,6 +119,8 @@ export default {
       'fetchPredIndex',
       'fetchTheDocFolder',
       'fetchTheDocMeta',
+      'fetchSpeakerColor',
+      'tagChTopic',
     ]),
     dialog(value) {
       this.$q.dialog({
@@ -104,6 +141,7 @@ export default {
         this.fetchTheDocMeta();
         this.fetchTheDocFolder();
       });
+    this.fetchSpeakerColor();
   },
 };
 </script>

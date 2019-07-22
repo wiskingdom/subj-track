@@ -13,6 +13,12 @@ const theDocAnno = state => state.theDocAnno;
 const subjTrack = state => state.subjTrack;
 const predIndex = state => state.predIndex;
 const thePredId = state => state.thePredId;
+const chTopic = state => (id) => {
+  const sub = state.theDocAnno[id] ? state.theDocAnno[id].chTopic : false;
+  return sub;
+};
+const theSpeakerColor = state => id => state.speakerColor[id];
+
 
 export {
   isFetchedMain,
@@ -27,4 +33,6 @@ export {
   subjTrack,
   predIndex,
   thePredId,
+  chTopic,
+  theSpeakerColor,
 };

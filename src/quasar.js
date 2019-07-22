@@ -23,6 +23,8 @@ import {
   QSelect,
   Dialog,
   Ripple,
+  QBanner,
+  QAvatar,
 } from 'quasar';
 
 Vue.use(Quasar, {
@@ -44,6 +46,8 @@ Vue.use(Quasar, {
     QInput,
     QBadge,
     QSelect,
+    QBanner,
+    QAvatar,
   },
   directives: {
     Ripple,

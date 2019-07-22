@@ -14,6 +14,7 @@ export default {
   subjTrack: {},
   predIndex: {},
   thePredId: 0,
+  speakerColor: {},
 
   // for anno tool view
 };

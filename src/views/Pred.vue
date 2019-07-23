@@ -1,6 +1,7 @@
 <template>
-  <q-page class="flex flex-center" content-class="bg-grey-2">
-    <img alt="Quasar logo" src="../assets/logo.png">
+  <q-page>
+    <div>Pred</div>
+    <p>this.$route.params.predId: {{ this.$route.params.predId }}</p>
   </q-page>
 </template>
 

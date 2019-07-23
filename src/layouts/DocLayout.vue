@@ -8,16 +8,18 @@
       :width="350"
     >
       <div class="q-gutter-md" style="padding: 60px 10px;">
-        <!-- 실행 결과 -->
+        <!-- 실행 결과
         <p>this.$route.params.docId: <br>{{ this.$route.params.docId }}</p>
         <p>theDocId: <br>{{ theDocId }}</p>
         <p>theDocFolder: <br>{{ theDocFolder }}</p>
+        -->
         <p>theDocMeta: <br>{{ theDocMeta }}</p>
-      <router-view />
+        <router-view />
       </div>
     </q-drawer>
 
     <q-page-container>
+
       <div class="q-gutter-md" style="padding: 10px 10px;">
 
         <!-- 실행 결과
@@ -36,7 +38,8 @@
       >
         <template v-slot:avatar>
           <q-avatar
-            square size="40px"
+            square
+            size="40px"
             :color="theSpeakerColor(s.speaker)"
           >
             {{s.speaker}}
@@ -55,8 +58,20 @@
             v-if="token.type === 'nominal'"
           >
             <span
-              :class="'nominal text-bold'"
+              class="nominal text-bold"
             >{{`${token.morph}`}}</span>
+          </template>
+          <template
+            v-else-if="token.type === 'pred'"
+          >
+            <span
+              class="text-bold"
+            ><router-link
+              :to="`/main/${theDocId}/${token.predId}`"
+              event=""
+              exact
+            >
+              {{`${token.morph}`}}</router-link></span>
           </template>
           <template
             v-else
@@ -82,7 +97,7 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'AnnoLayout',
+  name: 'DocLayout',
 
   data() {
     return {
@@ -152,7 +167,21 @@ export default {
 <style>
   .nominal {
     font-size:medium;
+    color:rgba(76, 0, 130, 0.767);
     cursor: pointer;
+  }
+  a:link {
+    color:darkolivegreen;
+  }
+  a:visited {
+    color:darkolivegreen;
+  }
+  a {
+    cursor: default;
+  }
+
+  .router-link-active {
+    background:rgba(240, 128, 128, 0.651);
   }
 </style>
 >

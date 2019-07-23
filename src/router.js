@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Login from './views/Login.vue';
 import MainLayout from './layouts/MainLayout.vue';
 import MainAbout from './views/MainAbout.vue';
-import AnnoLayout from './layouts/AnnoLayout.vue';
+import DocLayout from './layouts/DocLayout.vue';
 import Pred from './views/Pred.vue';
 // import store from './store';
 
@@ -40,13 +40,17 @@ export default new Router({
         },
         {
           path: ':docId',
-          name: 'anno',
-          component: AnnoLayout,
+          name: 'doc',
+          component: DocLayout,
           children: [
+            {
+              path: '',
+              redirect: '0',
+            },
             {
               path: ':predId',
               name: 'pred',
-              componant: Pred,
+              component: Pred,
             },
           ],
         },

@@ -43,19 +43,32 @@
           </q-avatar>
         </template>
         <q-badge color="primary"
-          v-show="chTopic(sId)"
+          v-show="s.newSubsection"
         >
           New subsection
         </q-badge>
-        <br v-show="chTopic(sId)">
+        <br v-show="s.newSubsection">
         <span
           v-for="(token, tKey) in s.tokens"
           :key="tKey"
-        >{{`${token.delim}${token.morph}`}}</span>
+        >{{`${token.delim}`}}<template
+            v-if="token.type === 'nominal'"
+          >
+            <span
+              :class="'nominal text-bold'"
+            >{{`${token.morph}`}}</span>
+          </template>
+          <template
+            v-else
+          >
+            <span
+            >{{`${token.morph}`}}</span>
+          </template>
+        </span>
         <template v-slot:action>
           <q-btn
             flat icon="directions"
-            @click="tagChTopic({ sId, chTopic: !chTopic(sId) })"
+            @click="tagNewSubsection({ sId, newSubsection: !s.newSubsection })"
           />
         </template>
       </q-banner>
@@ -83,11 +96,8 @@ export default {
       'theDocId',
       'theDoc',
       'theDocMeta',
-      'theDocAnno',
-      'subjTrack',
       'predIndex',
       'thePredId',
-      'chTopic',
       'theSpeakerColor',
     ]),
   },
@@ -97,8 +107,6 @@ export default {
         this.pickDoc(this.$route.params.docId)
           .then(() => {
             this.fetchTheDoc()
-              .then(this.fetchTheDocAnno)
-              .then(this.fetchSubjTrack)
               .then(this.fetchPredIndex)
               .then(this.checkFechedAnno);
             this.fetchTheDocMeta();
@@ -114,13 +122,11 @@ export default {
       'assignFolderFromDocId',
       'checkFechedAnno',
       'fetchTheDoc',
-      'fetchTheDocAnno',
-      'fetchSubjTrack',
       'fetchPredIndex',
       'fetchTheDocFolder',
       'fetchTheDocMeta',
       'fetchSpeakerColor',
-      'tagChTopic',
+      'tagNewSubsection',
     ]),
     dialog(value) {
       this.$q.dialog({
@@ -134,8 +140,6 @@ export default {
     this.pickDoc(this.$route.params.docId)
       .then(() => {
         this.fetchTheDoc()
-          .then(this.fetchTheDocAnno)
-          .then(this.fetchSubjTrack)
           .then(this.fetchPredIndex)
           .then(this.checkFechedAnno);
         this.fetchTheDocMeta();
@@ -145,3 +149,10 @@ export default {
   },
 };
 </script>
+<style>
+  .nominal {
+    font-size:medium;
+    cursor: pointer;
+  }
+</style>
+>

@@ -41,20 +41,6 @@ const fetchTheDoc = ({ state, commit }) => new Promise((resolve) => {
     resolve();
   });
 });
-const fetchTheDocAnno = ({ state, commit }) => new Promise((resolve) => {
-  const { theDocId } = state;
-  db.ref(`/main/docAnno/${theDocId}`).once('value').then((snap) => {
-    commit('THE_DOC_ANNO', snap.val());
-    resolve();
-  });
-});
-const fetchSubjTrack = ({ state, commit }) => new Promise((resolve) => {
-  const { theDocId } = state;
-  db.ref(`/main/subjTrack/${theDocId}`).once('value').then((snap) => {
-    commit('SUBJ_TRACK', snap.val());
-    resolve();
-  });
-});
 const fetchPredIndex = ({ state, commit }) => new Promise((resolve) => {
   const { theDocId } = state;
   db.ref(`/main/predIndex/${theDocId}`).once('value').then((snap) => {
@@ -79,10 +65,10 @@ const fetchSpeakerColor = ({ commit }) => {
     commit('SPEAKER_COLOR', snap.val());
   });
 };
-const tagChTopic = ({ commit, state }, { sId, chTopic }) => {
+const tagNewSubsection = ({ commit, state }, { sId, newSubsection }) => {
   const { theDocId } = state;
-  db.ref(`/main/docAnno/${theDocId}/${sId}`).update({ chTopic });
-  commit('CH_TOPIC', { sId, chTopic });
+  db.ref(`/main/docs/${theDocId}/ses/${sId}`).update({ newSubsection });
+  commit('NEW_SUBSECTION', { sId, newSubsection });
 };
 
 export {
@@ -94,11 +80,9 @@ export {
   assignFolderFromDocId,
   checkFechedAnno,
   fetchTheDoc,
-  fetchTheDocAnno,
-  fetchSubjTrack,
   fetchPredIndex,
   fetchTheDocFolder,
   fetchTheDocMeta,
   fetchSpeakerColor,
-  tagChTopic,
+  tagNewSubsection,
 };

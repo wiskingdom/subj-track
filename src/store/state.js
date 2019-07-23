@@ -10,8 +10,6 @@ export default {
   isFetchedAnno: false,
   theDoc: [],
   theDocMeta: {},
-  theDocAnno: [],
-  subjTrack: {},
   predIndex: {},
   thePredId: 0,
   speakerColor: {},

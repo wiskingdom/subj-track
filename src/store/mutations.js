@@ -25,12 +25,6 @@ const THE_DOC = (state, payload) => {
 const THE_DOC_META = (state, payload) => {
   state.theDocMeta = payload;
 };
-const THE_DOC_ANNO = (state, payload) => {
-  state.theDocAnno = payload;
-};
-const SUBJ_TRACK = (state, payload) => {
-  state.subjTrack = payload;
-};
 const PRED_INDEX = (state, payload) => {
   state.predIndex = payload;
 };
@@ -40,8 +34,8 @@ const THE_PRED_ID = (state, payload) => {
 const SPEAKER_COLOR = (state, payload) => {
   state.speakerColor = payload;
 };
-const CH_TOPIC = (state, { sId, chTopic }) => {
-  state.theDocAnno[sId].chTopic = chTopic;
+const NEW_SUBSECTION = (state, { sId, newSubsection }) => {
+  state.theDoc[sId].newSubsection = newSubsection;
 };
 
 
@@ -54,10 +48,8 @@ export {
   IS_FETCHED_ANNO,
   THE_DOC,
   THE_DOC_META,
-  THE_DOC_ANNO,
-  SUBJ_TRACK,
   PRED_INDEX,
   THE_PRED_ID,
   SPEAKER_COLOR,
-  CH_TOPIC,
+  NEW_SUBSECTION,
 };

@@ -1,23 +1,5 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-drawer v-model="right"
-      side="right"
-      behavior="desktop"
-      bordered
-      content-class="bg-grey-2"
-      :width="350"
-    >
-      <div class="q-gutter-md" style="padding: 60px 10px;">
-        <!-- 실행 결과
-        <p>this.$route.params.docId: <br>{{ this.$route.params.docId }}</p>
-        <p>theDocId: <br>{{ theDocId }}</p>
-        <p>theDocFolder: <br>{{ theDocFolder }}</p>
-        -->
-        <p>theDocMeta: <br>{{ theDocMeta }}</p>
-        <router-view />
-      </div>
-    </q-drawer>
-
     <q-page-container>
 
       <div class="q-gutter-md" style="padding: 10px 10px;">
@@ -58,26 +40,36 @@
             v-if="token.type === 'nominal'"
           >
             <span
-              class="nominal text-bold"
+              class="cursor-pointer nominal text-blue-8 text-bold"
             >{{`${token.morph}`}}</span>
+            <q-tooltip>
+              {{token.tag}}
+            </q-tooltip>
           </template>
           <template
             v-else-if="token.type === 'pred'"
           >
             <span
-              class="text-bold"
+              class="text-bold "
             ><router-link
+              class="cursor-inherit text-green-8"
               :to="`/main/${theDocId}/${token.predId}`"
               event=""
               exact
             >
               {{`${token.morph}`}}</router-link></span>
+            <q-tooltip>
+              {{token.tag}}
+            </q-tooltip>
           </template>
           <template
             v-else
           >
             <span
             >{{`${token.morph}`}}</span>
+            <q-tooltip>
+              {{token.tag}}
+            </q-tooltip>
           </template>
         </span>
         <template v-slot:action>
@@ -90,6 +82,22 @@
 
       </div>
     </q-page-container>
+    <q-drawer v-model="right"
+      side="right"
+      behavior="desktop"
+      bordered
+      content-class="bg-grey-2"
+      :width="350"
+    >
+      <div class="q-gutter-md" style="padding: 60px 10px;">
+        <!-- 실행 결과
+        <p>this.$route.params.docId: <br>{{ this.$route.params.docId }}</p>
+        <p>theDocId: <br>{{ theDocId }}</p>
+        <p>theDocMeta: <br>{{ theDocMeta }}</p>
+        -->
+        <router-view />
+      </div>
+    </q-drawer>
   </q-layout>
 </template>
 
@@ -107,25 +115,24 @@ export default {
 
   computed: {
     ...mapGetters([
-      'theDocFolder',
       'theDocId',
       'theDoc',
       'theDocMeta',
-      'predIndex',
-      'thePredId',
       'theSpeakerColor',
     ]),
   },
   watch: {
     $route: {
       handler() {
-        this.pickDoc(this.$route.params.docId)
-          .then(() => {
-            this.fetchTheDoc()
-              .then(this.fetchPredIndex)
-              .then(this.checkFechedAnno);
-            this.fetchTheDocMeta();
-          });
+        if (this.theDocId !== this.$route.params.docId) {
+          const { docId } = this.$route.params;
+          this.pickDoc(docId);
+          this.fetchTheDoc(docId)
+            .then(this.checkFechedDoc);
+          this.fetchTheDocMeta(docId);
+          this.fetchTheDocFolder(docId);
+          this.fetchPredIndex(docId);
+        }
       },
     },
   },
@@ -133,14 +140,12 @@ export default {
   methods: {
     ...mapActions([
       'pickDoc',
-      'pickDocFolder',
-      'assignFolderFromDocId',
-      'checkFechedAnno',
+      'checkFechedDoc',
       'fetchTheDoc',
-      'fetchPredIndex',
       'fetchTheDocFolder',
       'fetchTheDocMeta',
       'fetchSpeakerColor',
+      'fetchPredIndex',
       'tagNewSubsection',
     ]),
     dialog(value) {
@@ -152,34 +157,21 @@ export default {
   },
 
   created() {
-    this.pickDoc(this.$route.params.docId)
-      .then(() => {
-        this.fetchTheDoc()
-          .then(this.fetchPredIndex)
-          .then(this.checkFechedAnno);
-        this.fetchTheDocMeta();
-        this.fetchTheDocFolder();
-      });
+    const { docId } = this.$route.params;
+    this.pickDoc(docId);
+    this.fetchTheDoc(docId)
+      .then(this.checkFechedDoc);
+    this.fetchTheDocMeta(docId);
+    this.fetchTheDocFolder(docId);
     this.fetchSpeakerColor();
+    this.fetchPredIndex(docId);
   },
 };
 </script>
 <style>
   .nominal {
-    font-size:medium;
-    color:rgba(76, 0, 130, 0.767);
-    cursor: pointer;
+    font-size: medium;
   }
-  a:link {
-    color:darkolivegreen;
-  }
-  a:visited {
-    color:darkolivegreen;
-  }
-  a {
-    cursor: default;
-  }
-
   .router-link-active {
     background:rgba(240, 128, 128, 0.651);
   }

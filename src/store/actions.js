@@ -25,38 +25,24 @@ const pickDoc = ({ commit }, docId) => new Promise((resolve) => {
   commit('THE_DOC_ID', docId);
   resolve();
 });
-const assignFolderFromDocId = ({ state, dispatch }) => {
-  const theDocFolder = state.docIndex[state.theDocId].folder;
-  dispatch('pickDocFolder', theDocFolder);
-};
 
-// for anno tool layout
-const checkFechedAnno = ({ commit }) => {
-  commit('IS_FETCHED_ANNO', true);
+// for doc layout
+const checkFechedDoc = ({ commit }) => {
+  commit('IS_FETCHED_DOC', true);
 };
-const fetchTheDoc = ({ state, commit }) => new Promise((resolve) => {
-  const { theDocId } = state;
-  db.ref(`/main/docs/${theDocId}/ses`).once('value').then((snap) => {
+const fetchTheDoc = ({ commit }, docId) => new Promise((resolve) => {
+  db.ref(`/main/docs/${docId}/ses`).once('value').then((snap) => {
     commit('THE_DOC', snap.val());
     resolve();
   });
 });
-const fetchPredIndex = ({ state, commit }) => new Promise((resolve) => {
-  const { theDocId } = state;
-  db.ref(`/main/predIndex/${theDocId}`).once('value').then((snap) => {
-    commit('PRED_INDEX', snap.val());
-    resolve();
-  });
-});
-const fetchTheDocFolder = ({ state, commit }) => {
-  const { theDocId } = state;
-  db.ref(`/main/docIndex/${theDocId}/folder`).once('value').then((snap) => {
+const fetchTheDocFolder = ({ commit }, docId) => {
+  db.ref(`/main/docIndex/${docId}/folder`).once('value').then((snap) => {
     commit('THE_DOC_FOLDER', snap.val());
   });
 };
-const fetchTheDocMeta = ({ state, commit }) => {
-  const { theDocId } = state;
-  db.ref(`/main/docMeta/${theDocId}`).once('value').then((snap) => {
+const fetchTheDocMeta = ({ commit }, docId) => {
+  db.ref(`/main/docMeta/${docId}`).once('value').then((snap) => {
     commit('THE_DOC_META', snap.val());
   });
 };
@@ -71,18 +57,29 @@ const tagNewSubsection = ({ commit, state }, { sId, newSubsection }) => {
   commit('NEW_SUBSECTION', { sId, newSubsection });
 };
 
+const fetchPredIndex = ({ commit }, docId) => new Promise((resolve) => {
+  db.ref(`/main/predIndex/${docId}`).once('value').then((snap) => {
+    commit('PRED_INDEX', snap.val());
+    resolve();
+  });
+});
+const pickPred = ({ commit }, predId) => new Promise((resolve) => {
+  commit('THE_PRED_ID', predId);
+  resolve();
+});
+
 export {
   fetchDocIndex,
   fetchDocFolders,
   checkFechedMain,
   pickDocFolder,
   pickDoc,
-  assignFolderFromDocId,
-  checkFechedAnno,
+  checkFechedDoc,
   fetchTheDoc,
   fetchPredIndex,
   fetchTheDocFolder,
   fetchTheDocMeta,
   fetchSpeakerColor,
   tagNewSubsection,
+  pickPred,
 };

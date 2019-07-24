@@ -40,7 +40,6 @@ export default new Router({
         },
         {
           path: ':docId',
-          name: 'doc',
           component: DocLayout,
           children: [
             {
@@ -49,7 +48,6 @@ export default new Router({
             },
             {
               path: ':predId',
-              name: 'pred',
               component: Pred,
             },
           ],

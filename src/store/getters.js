@@ -6,13 +6,15 @@ const theDocFolder = state => state.theDocFolder;
 const theDocId = state => state.theDocId;
 
 // for anno tool layout
-const isFetchedAnno = state => state.isFetchedAnno;
+const isFetchedDoc = state => state.isFetchedAnno;
 const theDoc = state => state.theDoc;
 const theDocMeta = state => state.theDocMeta;
-const predIndex = state => state.predIndex;
-const thePredId = state => state.thePredId;
 const theSpeakerColor = state => id => state.speakerColor[id];
-
+const predIndex = state => state.predIndex;
+const lastPredId = state => state.predIndex.length - 1;
+const thePredId = state => state.thePredId;
+const prevPredId = state => (state.thePredId ? state.thePredId - 1 : 0);
+const nextPredId = state => state.thePredId + 1;
 
 export {
   isFetchedMain,
@@ -20,10 +22,13 @@ export {
   docFolders,
   theDocFolder,
   theDocId,
-  isFetchedAnno,
+  isFetchedDoc,
   theDoc,
   theDocMeta,
   predIndex,
-  thePredId,
   theSpeakerColor,
+  lastPredId,
+  thePredId,
+  prevPredId,
+  nextPredId,
 };

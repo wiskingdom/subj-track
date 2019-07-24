@@ -121,7 +121,6 @@ export default {
       'docIndex',
       'docFolders',
       'theDocFolder',
-      'theDocId',
     ]),
   },
 
@@ -131,8 +130,6 @@ export default {
       'fetchDocFolders',
       'checkFechedMain',
       'pickDocFolder',
-      'pickDoc',
-      'assignFolderFromDocId',
     ]),
     logout() {
       this.$auth.signOut().then(() => {

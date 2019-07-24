@@ -26,6 +26,7 @@ import {
   QBanner,
   QAvatar,
   QToggle,
+  QTooltip,
 } from 'quasar';
 
 Vue.use(Quasar, {
@@ -50,6 +51,7 @@ Vue.use(Quasar, {
     QBanner,
     QAvatar,
     QToggle,
+    QTooltip,
   },
   directives: {
     Ripple,

@@ -6,13 +6,13 @@ export default {
   theDocFolder: '',
   theDocId: '',
 
-  // for anno tool layout
-  isFetchedAnno: false,
+  // for doc layout
+  isFetchedDoc: false,
   theDoc: [],
   theDocMeta: {},
-  predIndex: {},
-  thePredId: 0,
   speakerColor: {},
+  predIndex: [],
+  thePredId: 0,
 
   // for anno tool view
 };

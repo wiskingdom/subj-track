@@ -12,6 +12,7 @@ export default {
   theDocMeta: {},
   speakerColor: {},
   predIndex: [],
+  lastPredId: 0,
   thePredId: 0,
 
   // for anno tool view

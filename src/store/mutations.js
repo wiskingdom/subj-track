@@ -34,6 +34,9 @@ const SPEAKER_COLOR = (state, payload) => {
 const NEW_SUBSECTION = (state, { sId, newSubsection }) => {
   state.theDoc[sId].newSubsection = newSubsection;
 };
+const LAST_PRED_ID = (state, payload) => {
+  state.lastPredId = Number(payload);
+};
 const THE_PRED_ID = (state, payload) => {
   state.thePredId = Number(payload);
 };
@@ -47,8 +50,9 @@ export {
   IS_FETCHED_DOC,
   THE_DOC,
   THE_DOC_META,
-  PRED_INDEX,
   SPEAKER_COLOR,
   NEW_SUBSECTION,
+  PRED_INDEX,
+  LAST_PRED_ID,
   THE_PRED_ID,
 };

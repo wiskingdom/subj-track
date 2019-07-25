@@ -3,20 +3,15 @@
     <q-page-container>
 
       <div class="q-gutter-md" style="padding: 10px 10px;">
-
-        <!-- 실행 결과
-        <p>theDocAnno: <br>{{ theDocAnno.slice(0, 3) }}</p>
-        <p>theDoc: <br>{{ theDoc.slice(0, 3) }}</p>
-        <p>subjTrack: <br>{{ Object.entries(subjTrack).slice(0, 3) }}</p>
-        <p>predIndex: <br>{{ Object.entries(predIndex).slice(0, 3) }}</p>
-        <p>thePredId: <br>{{ thePredId }}</p>
-        -->
-
+      <!-- S-units -->
+      <div
+        v-for="(s, sId) in theDoc"
+        :key="sId"
+        ref="sunit"
+      >
       <q-banner
         rounded
         class="bg-grey-1"
-        v-for="(s, sId) in theDoc"
-        :key="sId"
       >
         <template v-slot:avatar>
           <q-avatar
@@ -33,6 +28,8 @@
           New subsection
         </q-badge>
         <br v-show="s.newSubsection">
+
+        <!-- tokens -->
         <span
           v-for="(token, tKey) in s.tokens"
           :key="tKey"
@@ -79,6 +76,7 @@
           />
         </template>
       </q-banner>
+      </div>
 
       </div>
     </q-page-container>
@@ -89,20 +87,40 @@
       content-class="bg-grey-2"
       :width="350"
     >
-      <div class="q-gutter-md" style="padding: 60px 10px;">
-        <!-- 실행 결과
-        <p>this.$route.params.docId: <br>{{ this.$route.params.docId }}</p>
-        <p>theDocId: <br>{{ theDocId }}</p>
-        <p>theDocMeta: <br>{{ theDocMeta }}</p>
-        -->
-        <router-view />
+
+      <div class="q-gutter-md" style="padding: 60px 10px 10px 10px;">
+        <!-- navigator -->
+        <q-btn
+          flat color="secondary"
+          icon="arrow_left"
+          label="prev"
+          :to="`/main/${theDocId}/${prevPredId}`"
+          @click="scrollToSunitByPredId(prevPredId)"
+        />
+        <q-btn
+          flat color="secondary"
+          icon-right="arrow_right"
+          label="next"
+          :to="`/main/${theDocId}/${nextPredId}`"
+          :disable="thePredId === lastPredId"
+          @click="scrollToSunitByPredId(nextPredId)"
+        />
+          <q-btn
+          flat color="orange"
+          label="test"
+          @click="dialog()"
+        />
       </div>
+      <router-view />
     </q-drawer>
   </q-layout>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { scroll } from 'quasar';
+
+const { getScrollTarget, setScrollPosition } = scroll;
 
 export default {
   name: 'DocLayout',
@@ -119,6 +137,11 @@ export default {
       'theDoc',
       'theDocMeta',
       'theSpeakerColor',
+      'thePredId',
+      'lastPredId',
+      'prevPredId',
+      'nextPredId',
+      'sIdFromPredId',
     ]),
   },
   watch: {
@@ -131,7 +154,8 @@ export default {
             .then(this.checkFechedDoc);
           this.fetchTheDocMeta(docId);
           this.fetchTheDocFolder(docId);
-          this.fetchPredIndex(docId);
+          this.fetchPredIndex(docId)
+            .then(this.setLastPredId);
         }
       },
     },
@@ -145,14 +169,25 @@ export default {
       'fetchTheDocFolder',
       'fetchTheDocMeta',
       'fetchSpeakerColor',
-      'fetchPredIndex',
       'tagNewSubsection',
+      'fetchPredIndex',
+      'setLastPredId',
     ]),
     dialog(value) {
       this.$q.dialog({
         title: 'Log',
         message: `${value}`,
       });
+    },
+    scrollToElement(el) {
+      const target = getScrollTarget(el);
+      const offset = el.offsetTop;
+      const duration = 500;
+      setScrollPosition(target, offset - 400, duration);
+    },
+    scrollToSunitByPredId(predId) {
+      const el = this.$refs.sunit[this.sIdFromPredId(predId)];
+      this.scrollToElement(el);
     },
   },
 
@@ -164,7 +199,8 @@ export default {
     this.fetchTheDocMeta(docId);
     this.fetchTheDocFolder(docId);
     this.fetchSpeakerColor();
-    this.fetchPredIndex(docId);
+    this.fetchPredIndex(docId)
+      .then(this.setLastPredId);
   },
 };
 </script>

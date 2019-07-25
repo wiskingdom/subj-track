@@ -11,10 +11,11 @@ const theDoc = state => state.theDoc;
 const theDocMeta = state => state.theDocMeta;
 const theSpeakerColor = state => id => state.speakerColor[id];
 const predIndex = state => state.predIndex;
-const lastPredId = state => state.predIndex.length - 1;
+const lastPredId = state => state.lastPredId;
 const thePredId = state => state.thePredId;
 const prevPredId = state => (state.thePredId ? state.thePredId - 1 : 0);
 const nextPredId = state => state.thePredId + 1;
+const sIdFromPredId = state => predId => state.predIndex[predId].sId;
 
 export {
   isFetchedMain,
@@ -31,4 +32,5 @@ export {
   thePredId,
   prevPredId,
   nextPredId,
+  sIdFromPredId,
 };

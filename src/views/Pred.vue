@@ -1,17 +1,11 @@
 <template>
-  <q-page>
-    <q-btn flat color="secondary" icon="arrow_left" label="prev"
-      :to="`/main/${theDocId}/${prevPredId}`"
-    />
-    <q-btn flat color="secondary" icon-right="arrow_right" label="next"
-      :to="`/main/${theDocId}/${nextPredId}`"
-    />
+  <div class="q-gutter-md" style="padding: 10px 10px;">
     <div>Pred</div>
     <p>this.$route.params.predId: {{ this.$route.params.predId }}</p>
     <p>theDocId: {{ theDocId }}</p>
     <p>thePredId: {{ thePredId }}</p>
     <p>lastPredId: {{ lastPredId }}</p>
-  </q-page>
+  </div>
 </template>
 
 <style>

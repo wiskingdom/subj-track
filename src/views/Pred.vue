@@ -5,6 +5,7 @@
     <p>theDocId: {{ theDocId }}</p>
     <p>thePredId: {{ thePredId }}</p>
     <p>lastPredId: {{ lastPredId }}</p>
+    <p>thePred: {{ thePred }}</p>
   </div>
 </template>
 
@@ -23,13 +24,15 @@ export default {
       'lastPredId',
       'prevPredId',
       'nextPredId',
+      'thePred',
     ]),
   },
   watch: {
     $route: {
       handler() {
-        const { predId } = this.$route.params;
+        const { docId, predId } = this.$route.params;
         this.pickPred(predId);
+        this.fetchThePred({ docId, predId });
       },
     },
   },
@@ -37,6 +40,7 @@ export default {
   methods: {
     ...mapActions([
       'pickPred',
+      'fetchThePred',
     ]),
     dialog(value) {
       this.$q.dialog({
@@ -46,8 +50,9 @@ export default {
     },
   },
   created() {
-    const { predId } = this.$route.params;
+    const { docId, predId } = this.$route.params;
     this.pickPred(predId);
+    this.fetchThePred({ docId, predId });
   },
 };
 </script>

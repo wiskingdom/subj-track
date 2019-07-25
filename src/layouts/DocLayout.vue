@@ -1,83 +1,116 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-page-container>
-
-      <div class="q-gutter-md" style="padding: 10px 10px;">
-      <!-- S-units -->
-      <div
-        v-for="(s, sId) in theDoc"
-        :key="sId"
-        ref="sunit"
-      >
-      <q-banner
-        rounded
-        class="bg-grey-1"
-      >
-        <template v-slot:avatar>
-          <q-avatar
-            square
-            size="40px"
-            :color="theSpeakerColor(s.speaker)"
-          >
-            {{s.speaker}}
-          </q-avatar>
-        </template>
-        <q-badge color="primary"
-          v-show="s.newSubsection"
-        >
-          New subsection
-        </q-badge>
-        <br v-show="s.newSubsection">
-
-        <!-- tokens -->
-        <span
-          v-for="(token, tKey) in s.tokens"
-          :key="tKey"
-        >{{`${token.delim}`}}<template
-            v-if="token.type === 'nominal'"
-          >
-            <span
-              class="cursor-pointer nominal text-blue-8 text-bold"
-            >{{`${token.morph}`}}</span>
-            <q-tooltip>
-              {{token.tag}}
-            </q-tooltip>
-          </template>
-          <template
-            v-else-if="token.type === 'pred'"
-          >
-            <span
-              class="text-bold "
-            ><router-link
-              class="cursor-inherit text-green-8"
-              :to="`/main/${theDocId}/${token.predId}`"
-              event=""
-              exact
+    <q-dialog v-model="predList">
+      <q-layout view="Lhh lpR fff" container class="bg-white">
+        <q-header class="bg-primary">
+          <q-toolbar>
+            <q-toolbar-title>List</q-toolbar-title>
+            <q-btn flat round dense icon="close"
+              @click="offList"
+            />
+          </q-toolbar>
+        </q-header>
+        <q-page-container>
+          <q-list dense separator bordered class="bg-grey-1">
+            <q-item
+              clickable
+              v-ripple
+              v-for="(item, index) in predIndex"
+              :to="`/main/${theDocId}/${index}`"
+              :key="`${index}`"
             >
-              {{`${token.morph}`}}</router-link></span>
-            <q-tooltip>
-              {{token.tag}}
-            </q-tooltip>
-          </template>
-          <template
-            v-else
-          >
-            <span
-            >{{`${token.morph}`}}</span>
-            <q-tooltip>
-              {{token.tag}}
-            </q-tooltip>
-          </template>
-        </span>
-        <template v-slot:action>
-          <q-btn
-            flat icon="directions"
-            @click="tagNewSubsection({ sId, newSubsection: !s.newSubsection })"
-          />
-        </template>
-      </q-banner>
-      </div>
+              <q-item-section>
+                <q-item-label>{{ index }}
+                  <q-badge color="grey-5">
+                    {{ item.state }}
+                  </q-badge>
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-page-container>
+      </q-layout>
+    </q-dialog>
 
+      <div
+        class="q-gutter-md"
+        style="padding: 10px 10px;"
+      >
+      <!-- S-units -->
+        <div
+          v-for="(s, sId) in theDoc"
+          :key="sId"
+          ref="sunit"
+        >
+        <q-banner
+          rounded
+          class="bg-grey-1"
+        >
+          <template v-slot:avatar>
+            <q-avatar
+              square
+              size="40px"
+              :color="theSpeakerColor(s.speaker)"
+            >
+              {{s.speaker}}
+            </q-avatar>
+          </template>
+          <q-badge color="primary"
+            v-show="s.newSubsection"
+          >
+            New subsection
+          </q-badge>
+          <br v-show="s.newSubsection">
+
+          <!-- tokens -->
+          <span
+            v-for="(token, tKey) in s.tokens"
+            :key="tKey"
+          >{{`${token.delim}`}}<template
+              v-if="token.type === 'nominal'"
+            >
+              <span
+                class="cursor-pointer nominal text-blue-8 text-bold"
+              >{{`${token.morph}`}}</span>
+              <q-tooltip>
+                {{token.tag}}
+              </q-tooltip>
+            </template>
+            <template
+              v-else-if="token.type === 'pred'"
+            >
+              <span
+                class="text-bold "
+              ><router-link
+                class="cursor-inherit text-green-8"
+                :to="`/main/${theDocId}/${token.predId}`"
+                event=""
+                exact
+              >
+                {{`${token.morph}`}}</router-link></span>
+              <q-tooltip>
+                {{token.tag}}
+              </q-tooltip>
+            </template>
+            <template
+              v-else
+            >
+              <span
+              >{{`${token.morph}`}}</span>
+              <q-tooltip>
+                {{token.tag}}
+              </q-tooltip>
+            </template>
+          </span>
+          <template v-slot:action>
+            <q-btn
+              flat icon="directions"
+              @click="tagNewSubsection({ sId, newSubsection: !s.newSubsection })"
+            />
+          </template>
+        </q-banner>
+        </div>
       </div>
     </q-page-container>
     <q-drawer v-model="right"
@@ -95,7 +128,6 @@
           icon="arrow_left"
           label="prev"
           :to="`/main/${theDocId}/${prevPredId}`"
-          @click="scrollToSunitByPredId(prevPredId)"
         />
         <q-btn
           flat color="secondary"
@@ -103,12 +135,11 @@
           label="next"
           :to="`/main/${theDocId}/${nextPredId}`"
           :disable="thePredId === lastPredId"
-          @click="scrollToSunitByPredId(nextPredId)"
         />
           <q-btn
           flat color="orange"
-          label="test"
-          @click="dialog()"
+          label="List"
+          @click="onList"
         />
       </div>
       <router-view />
@@ -128,6 +159,7 @@ export default {
   data() {
     return {
       right: true,
+      predList: false,
     };
   },
 
@@ -137,6 +169,7 @@ export default {
       'theDoc',
       'theDocMeta',
       'theSpeakerColor',
+      'predIndex',
       'thePredId',
       'lastPredId',
       'prevPredId',
@@ -147,15 +180,22 @@ export default {
   watch: {
     $route: {
       handler() {
-        if (this.theDocId !== this.$route.params.docId) {
-          const { docId } = this.$route.params;
+        const { docId, predId } = this.$route.params;
+        this.scrollToSunitByPredId(predId);
+
+        if (this.theDocId !== docId) {
+          this.$q.loading.show();
           this.pickDoc(docId);
           this.fetchTheDoc(docId)
-            .then(this.checkFechedDoc);
+            .then(() => {
+              this.checkFechedDoc();
+              this.$q.loading.hide();
+            });
           this.fetchTheDocMeta(docId);
           this.fetchTheDocFolder(docId);
           this.fetchPredIndex(docId)
             .then(this.setLastPredId);
+          this.scrollToTop();
         }
       },
     },
@@ -189,18 +229,32 @@ export default {
       const el = this.$refs.sunit[this.sIdFromPredId(predId)];
       this.scrollToElement(el);
     },
+    scrollToTop() {
+      window.scrollTo(0, 0);
+    },
+    onList() {
+      this.predList = true;
+    },
+    offList() {
+      this.predList = false;
+    },
   },
 
   created() {
+    this.$q.loading.show();
     const { docId } = this.$route.params;
     this.pickDoc(docId);
     this.fetchTheDoc(docId)
-      .then(this.checkFechedDoc);
+      .then(() => {
+        this.checkFechedDoc();
+        this.$q.loading.hide();
+      });
     this.fetchTheDocMeta(docId);
     this.fetchTheDocFolder(docId);
     this.fetchSpeakerColor();
     this.fetchPredIndex(docId)
       .then(this.setLastPredId);
+    this.scrollToTop();
   },
 };
 </script>

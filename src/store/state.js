@@ -15,5 +15,6 @@ export default {
   lastPredId: 0,
   thePredId: 0,
 
-  // for anno tool view
+  // for pred view
+  thePred: {},
 };

@@ -40,6 +40,9 @@ const LAST_PRED_ID = (state, payload) => {
 const THE_PRED_ID = (state, payload) => {
   state.thePredId = Number(payload);
 };
+const THE_PRED = (state, payload) => {
+  state.thePred = payload;
+};
 
 export {
   IS_FETCHED_MAIN,
@@ -55,4 +58,5 @@ export {
   PRED_INDEX,
   LAST_PRED_ID,
   THE_PRED_ID,
+  THE_PRED,
 };

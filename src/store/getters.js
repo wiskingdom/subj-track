@@ -16,6 +16,7 @@ const thePredId = state => state.thePredId;
 const prevPredId = state => (state.thePredId ? state.thePredId - 1 : 0);
 const nextPredId = state => state.thePredId + 1;
 const sIdFromPredId = state => predId => state.predIndex[predId].sId;
+const thePred = state => state.thePred;
 
 export {
   isFetchedMain,
@@ -33,4 +34,5 @@ export {
   prevPredId,
   nextPredId,
   sIdFromPredId,
+  thePred,
 };

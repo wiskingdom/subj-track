@@ -27,6 +27,8 @@ import {
   QAvatar,
   QToggle,
   QTooltip,
+  QDialog,
+  Loading,
 } from 'quasar';
 
 Vue.use(Quasar, {
@@ -52,11 +54,13 @@ Vue.use(Quasar, {
     QAvatar,
     QToggle,
     QTooltip,
+    QDialog,
   },
   directives: {
     Ripple,
   },
   plugins: {
     Dialog,
+    Loading,
   },
 });

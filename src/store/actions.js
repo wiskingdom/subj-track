@@ -70,6 +70,13 @@ const pickPred = ({ commit }, predId) => new Promise((resolve) => {
   commit('THE_PRED_ID', predId);
   resolve();
 });
+const fetchThePred = ({ commit }, ids) => new Promise((resolve) => {
+  db.ref(`/main/predAnno/${ids.docId}/${ids.predId}`)
+    .once('value').then((snap) => {
+      commit('THE_PRED', snap.val());
+      resolve();
+    });
+});
 
 export {
   fetchDocIndex,
@@ -86,4 +93,5 @@ export {
   fetchPredIndex,
   setLastPredId,
   pickPred,
+  fetchThePred,
 };

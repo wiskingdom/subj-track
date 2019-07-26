@@ -82,9 +82,10 @@ const fetchPredIndex = ({ commit }, docId) => new Promise((resolve) => {
     resolve();
   });
 });
-const setLastPredId = ({ state, commit }) => {
+const setLastPredId = ({ state, commit }) => new Promise((resolve) => {
   commit('LAST_PRED_ID', state.predIndex.length - 1);
-};
+  resolve();
+});
 const pickPred = ({ commit }, predId) => new Promise((resolve) => {
   commit('THE_PRED_ID', predId);
   resolve();

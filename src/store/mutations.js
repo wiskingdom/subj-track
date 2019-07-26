@@ -51,7 +51,7 @@ const CH_SUBJ_TRACK = (state, { tokenId, value }) => {
   state.subjTrack[`${tokenId}`] = value;
 };
 const LAST_PRED_ID = (state, payload) => {
-  state.lastPredId = Number(payload);
+  state.lastPredId = payload;
 };
 const THE_PRED_ID = (state, payload) => {
   state.thePredId = Number(payload);

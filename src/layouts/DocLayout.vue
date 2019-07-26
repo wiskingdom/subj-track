@@ -115,7 +115,6 @@
               size="40px"
               :font-size="theSpeakerFontSize(s.speaker)"
               :color="theSpeakerColor(s.speaker)"
-              :text="s.speaker"
             >
               {{s.speaker}}
             </q-avatar>
@@ -192,6 +191,13 @@
           :to="`/main/${theDocId}/${prevPredId}`"
           :disable="thePredId === 0"
         />
+        <q-avatar
+          square
+          size="25px"
+          color="grey-1"
+        >
+          {{thePredId}}
+        </q-avatar>
         <q-btn
           flat color="secondary"
           icon="arrow_right"
@@ -253,21 +259,22 @@ export default {
       handler() {
         const { docId, predId } = this.$route.params;
         this.scrollToSunitByPredId(predId);
-
         if (this.theDocId !== docId) {
           this.$q.loading.show();
-          this.pickDoc(docId);
-          this.fetchTheDoc(docId)
-            .then(() => {
-              this.checkFechedDoc();
-              this.$q.loading.hide();
-            });
-          this.fetchNewSubsection(docId);
-          this.fetchTheDocMeta(docId);
-          this.fetchTheDocFolder(docId);
-          this.fetchPredIndex(docId)
-            .then(this.setLastPredId);
-          this.scrollToTop();
+          Promise.all([
+            this.scrollToTop(),
+            this.pickDoc(docId),
+            this.fetchTheDoc(docId),
+            this.fetchNewSubsection(docId),
+            this.fetchTheDocMeta(docId),
+            this.fetchTheDocFolder(docId),
+            this.fetchSpeakerColor(),
+            this.fetchPredIndex(docId),
+          ]).then(() => {
+            this.checkFechedDoc();
+            this.setLastPredId();
+            this.$q.loading.hide();
+          });
         }
       },
     },
@@ -329,6 +336,22 @@ export default {
   created() {
     this.$q.loading.show();
     const { docId } = this.$route.params;
+    Promise.all([
+      this.scrollToTop(),
+      this.pickDoc(docId),
+      this.fetchTheDoc(docId),
+      this.fetchNewSubsection(docId),
+      this.fetchTheDocMeta(docId),
+      this.fetchTheDocFolder(docId),
+      this.fetchSpeakerColor(),
+      this.fetchPredIndex(docId),
+    ]).then(() => {
+      this.checkFechedDoc();
+      this.setLastPredId();
+      this.$q.loading.hide();
+    });
+
+    /* past
     this.pickDoc(docId);
     this.fetchTheDoc(docId)
       .then(() => {
@@ -342,6 +365,7 @@ export default {
     this.fetchPredIndex(docId)
       .then(this.setLastPredId);
     this.scrollToTop();
+    */
   },
 };
 </script>

@@ -18,5 +18,30 @@ export default {
   thePredId: 0,
 
   // for pred view
-  thePred: {},
+  thePred: {
+    predId: 0,
+    tokenId: '',
+    sId: 0,
+    spec: {
+      speaker: '',
+      morph: '',
+      tag: '',
+      left: [],
+      right: [],
+    },
+    anno: {
+      isMainP: true,
+      stopTrack: false,
+      stopTrackType: false,
+      subs: [],
+      mainSubPick: false,
+      directInput: '',
+      inTheSameS: true,
+      inTheSameC: true,
+      allFilled: false,
+      state: 'ready',
+      updatedBy: false,
+      updatedAt: false,
+    },
+  },
 };

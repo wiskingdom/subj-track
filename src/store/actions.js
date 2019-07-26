@@ -51,10 +51,25 @@ const fetchSpeakerColor = ({ commit }) => {
     commit('SPEAKER_COLOR', snap.val());
   });
 };
-const tagNewSubsection = ({ commit, state }, { sId, newSubsection }) => {
-  const { theDocId } = state;
-  db.ref(`/main/docs/${theDocId}/ses/${sId}`).update({ newSubsection });
-  commit('NEW_SUBSECTION', { sId, newSubsection });
+const fetchNewSubsection = ({ commit }, docId) => {
+  db.ref(`/main/newSubsection/${docId}`).once('value').then((snap) => {
+    const payload = snap.val() ? snap.val() : [];
+    commit('NEW_SUBSECTION', payload);
+  });
+};
+const chNewSubsection = ({ commit }, sId) => new Promise((resolve) => {
+  commit('CH_NEW_SUBSECTION', sId);
+  resolve();
+});
+const pushNewSubsection = ({ state, dispatch }, sId) => {
+  dispatch('chNewSubsection', sId)
+    .then(() => {
+      const { theDocId, newSubsection } = state;
+      const push = {};
+      push[theDocId] = newSubsection;
+      db.ref('/main/newSubsection')
+        .update(push);
+    });
 };
 
 const fetchPredIndex = ({ commit }, docId) => new Promise((resolve) => {
@@ -89,7 +104,9 @@ export {
   fetchTheDocFolder,
   fetchTheDocMeta,
   fetchSpeakerColor,
-  tagNewSubsection,
+  fetchNewSubsection,
+  chNewSubsection,
+  pushNewSubsection,
   fetchPredIndex,
   setLastPredId,
   pickPred,

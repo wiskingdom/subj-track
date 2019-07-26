@@ -2,15 +2,17 @@ export default {
   // for main layout
   isFetchedMain: false,
   docIndex: {},
-  docFolders: [],
+  docFolders: [], // readonly
   theDocFolder: '',
   theDocId: '',
 
   // for doc layout
   isFetchedDoc: false,
-  theDoc: [],
-  theDocMeta: {},
-  speakerColor: {},
+  theDoc: [], // readonly
+  newSubsection: [],
+  subjTrack: {},
+  theDocMeta: {}, // readonly
+  speakerColor: {}, // readonly
   predIndex: [],
   lastPredId: 0,
   thePredId: 0,

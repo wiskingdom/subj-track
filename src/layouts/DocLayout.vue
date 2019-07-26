@@ -57,12 +57,11 @@
             </q-avatar>
           </template>
           <q-badge color="primary"
-            v-show="s.newSubsection"
+            v-show="isNewSubsection(sId)"
           >
             New subsection
           </q-badge>
-          <br v-show="s.newSubsection">
-
+          <br v-show="isNewSubsection(sId)">
           <!-- tokens -->
           <span
             v-for="(token, tKey) in s.tokens"
@@ -106,7 +105,7 @@
           <template v-slot:action>
             <q-btn
               flat icon="directions"
-              @click="tagNewSubsection({ sId, newSubsection: !s.newSubsection })"
+              @click="pushNewSubsection(sId)"
             />
           </template>
         </q-banner>
@@ -148,7 +147,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 import { scroll } from 'quasar';
 
 const { getScrollTarget, setScrollPosition } = scroll;
@@ -164,10 +163,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters([
-      'theDocId',
+    ...mapState([
       'theDoc',
       'theDocMeta',
+    ]),
+    ...mapGetters([
+      'theDocId',
+      'isNewSubsection',
+      'NewSubsection',
       'theSpeakerColor',
       'predIndex',
       'thePredId',
@@ -191,6 +194,7 @@ export default {
               this.checkFechedDoc();
               this.$q.loading.hide();
             });
+          this.fetchNewSubsection(docId);
           this.fetchTheDocMeta(docId);
           this.fetchTheDocFolder(docId);
           this.fetchPredIndex(docId)
@@ -209,7 +213,8 @@ export default {
       'fetchTheDocFolder',
       'fetchTheDocMeta',
       'fetchSpeakerColor',
-      'tagNewSubsection',
+      'fetchNewSubsection',
+      'pushNewSubsection',
       'fetchPredIndex',
       'setLastPredId',
     ]),
@@ -249,6 +254,7 @@ export default {
         this.checkFechedDoc();
         this.$q.loading.hide();
       });
+    this.fetchNewSubsection(docId);
     this.fetchTheDocMeta(docId);
     this.fetchTheDocFolder(docId);
     this.fetchSpeakerColor();

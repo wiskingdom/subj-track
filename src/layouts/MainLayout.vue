@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'MainLayout',
@@ -116,10 +116,12 @@ export default {
         'airline_seat_individual_suite',
       ].sort(() => Math.random() - 0.5)[0];
     },
+    ...mapState([
+      'docFolders',
+    ]),
     ...mapGetters([
       'isFetchedMain',
       'docIndex',
-      'docFolders',
       'theDocFolder',
     ]),
   },

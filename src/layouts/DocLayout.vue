@@ -1,37 +1,99 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-page-container>
-    <q-dialog v-model="predList">
-      <q-layout view="Lhh lpR fff" container class="bg-white">
-        <q-header class="bg-primary">
-          <q-toolbar>
-            <q-toolbar-title>List</q-toolbar-title>
-            <q-btn flat round dense icon="close"
-              @click="offList"
-            />
-          </q-toolbar>
-        </q-header>
-        <q-page-container>
-          <q-list dense separator bordered class="bg-grey-1">
-            <q-item
-              clickable
-              v-ripple
-              v-for="(item, index) in predIndex"
-              :to="`/main/${theDocId}/${index}`"
-              :key="`${index}`"
+      <!-- predList -->
+      <q-dialog v-model="showPredList">
+        <q-layout view="Lhh lpR fff" container class="bg-white">
+          <q-header class="bg-primary">
+            <q-toolbar>
+              <q-toolbar-title>Predicate List</q-toolbar-title>
+              <q-btn flat round dense icon="close"
+                @click="offList"
+              />
+            </q-toolbar>
+          </q-header>
+          <q-page-container>
+            <div
+              class="q-gutter-md"
+              style="padding: 10px 10px;"
             >
-              <q-item-section>
-                <q-item-label>{{ index }}
-                  <q-badge color="grey-5">
-                    {{ item.state }}
-                  </q-badge>
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-page-container>
-      </q-layout>
-    </q-dialog>
+            <q-list dense separator bordered class="bg-grey-1">
+              <q-item
+                clickable
+                v-ripple
+                v-for="(item, index) in predIndex"
+                :to="`/main/${theDocId}/${index}`"
+                :key="`${index}`"
+              >
+                <q-item-section>
+                  <q-item-label>{{ index }}
+                    <q-badge color="grey-5">
+                      {{ item.state }}
+                    </q-badge>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+          </q-page-container>
+        </q-layout>
+      </q-dialog>
+
+      <!-- docInfo -->
+      <q-dialog v-model="showDocInfo">
+        <q-layout view="Lhh lpR fff" container class="bg-white">
+          <q-header class="bg-primary">
+            <q-toolbar>
+              <q-toolbar-title>Document Information</q-toolbar-title>
+              <q-btn flat round dense icon="close"
+                @click="offInfo"
+              />
+            </q-toolbar>
+          </q-header>
+          <q-page-container>
+          <div
+            class="q-gutter-md"
+            style="padding: 10px 10px;"
+          >
+            <p><strong>{{theDocMeta.title}}</strong></p>
+            <p>Setting Info:</p>
+            <p>{{theDocMeta.setting}}</p>
+            <p>Person Info:</p>
+            <q-markup-table
+              flat
+              wrap-cells
+              bordered
+              separator="cell"
+            >
+              <thead>
+                <tr>
+                  <th class="text-center">Id</th>
+                  <th class="text-center">Sex</th>
+                  <th class="text-center">Age</th>
+                  <th class="text-center">Occupation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for=" (item, key) in theDocMeta.persons" :key="key">
+                  <td class="text-center">
+                    <q-avatar
+                      square
+                      size="30px"
+                      :color="theSpeakerColor(key)"
+                    >
+                      {{key}}
+                    </q-avatar>
+                  </td>
+                  <td class="text-center">{{item.sex}}</td>
+                  <td class="text-center">{{item.age}}</td>
+                  <td class="text-center">{{item.occupation}}</td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div>
+          </q-page-container>
+        </q-layout>
+      </q-dialog>
 
       <div
         class="q-gutter-md"
@@ -51,7 +113,9 @@
             <q-avatar
               square
               size="40px"
+              :font-size="theSpeakerFontSize(s.speaker)"
               :color="theSpeakerColor(s.speaker)"
+              :text="s.speaker"
             >
               {{s.speaker}}
             </q-avatar>
@@ -125,20 +189,24 @@
         <q-btn
           flat color="secondary"
           icon="arrow_left"
-          label="prev"
           :to="`/main/${theDocId}/${prevPredId}`"
+          :disable="thePredId === 0"
         />
         <q-btn
           flat color="secondary"
-          icon-right="arrow_right"
-          label="next"
+          icon="arrow_right"
           :to="`/main/${theDocId}/${nextPredId}`"
           :disable="thePredId === lastPredId"
         />
-          <q-btn
-          flat color="orange"
-          label="List"
+        <q-btn
+          flat color="secondary"
+          icon="list"
           @click="onList"
+        />
+        <q-btn
+          flat color="secondary"
+          icon="info"
+          @click="onInfo"
         />
       </div>
       <router-view />
@@ -158,7 +226,8 @@ export default {
   data() {
     return {
       right: true,
-      predList: false,
+      showPredList: false,
+      showDocInfo: false,
     };
   },
 
@@ -170,7 +239,6 @@ export default {
     ...mapGetters([
       'theDocId',
       'isNewSubsection',
-      'NewSubsection',
       'theSpeakerColor',
       'predIndex',
       'thePredId',
@@ -238,10 +306,23 @@ export default {
       window.scrollTo(0, 0);
     },
     onList() {
-      this.predList = true;
+      this.showPredList = true;
     },
     offList() {
-      this.predList = false;
+      this.showPredList = false;
+    },
+    onInfo() {
+      this.showDocInfo = true;
+    },
+    offInfo() {
+      this.showDocInfo = false;
+    },
+    theSpeakerFontSize: (id) => {
+      let size = '20px';
+      if (!id.match(/^P\d+$/)) {
+        size = '14px';
+      }
+      return size;
     },
   },
 

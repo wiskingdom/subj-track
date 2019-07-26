@@ -21,9 +21,6 @@ export default {
     ...mapGetters([
       'theDocId',
       'thePredId',
-      'lastPredId',
-      'prevPredId',
-      'nextPredId',
       'thePred',
     ]),
   },

@@ -10,7 +10,6 @@ const theSpeakerColor = state => id => (state.speakerColor[id]
   ? state.speakerColor[id]
   : 'grey');
 const isNewSubsection = state => sId => state.newSubsection.includes(sId);
-const NewSubsection = state => state.newSubsection;
 const manyTracked = state => tokenId => state.subjTrack[tokenId];
 const predIndex = state => state.predIndex;
 const lastPredId = state => state.lastPredId;
@@ -31,7 +30,6 @@ export {
   predIndex,
   theSpeakerColor,
   isNewSubsection,
-  NewSubsection,
   manyTracked,
   lastPredId,
   thePredId,

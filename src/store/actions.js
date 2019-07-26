@@ -36,27 +36,31 @@ const fetchTheDoc = ({ commit }, docId) => new Promise((resolve) => {
     resolve();
   });
 });
-const fetchTheDocFolder = ({ commit }, docId) => {
+const fetchTheDocFolder = ({ commit }, docId) => new Promise((resolve) => {
   db.ref(`/main/docIndex/${docId}/folder`).once('value').then((snap) => {
     commit('THE_DOC_FOLDER', snap.val());
+    resolve();
   });
-};
-const fetchTheDocMeta = ({ commit }, docId) => {
+});
+const fetchTheDocMeta = ({ commit }, docId) => new Promise((resolve) => {
   db.ref(`/main/docMeta/${docId}`).once('value').then((snap) => {
     commit('THE_DOC_META', snap.val());
+    resolve();
   });
-};
-const fetchSpeakerColor = ({ commit }) => {
+});
+const fetchSpeakerColor = ({ commit }) => new Promise((resolve) => {
   db.ref('/main/speakerColor').once('value').then((snap) => {
     commit('SPEAKER_COLOR', snap.val());
+    resolve();
   });
-};
-const fetchNewSubsection = ({ commit }, docId) => {
+});
+const fetchNewSubsection = ({ commit }, docId) => new Promise((resolve) => {
   db.ref(`/main/newSubsection/${docId}`).once('value').then((snap) => {
     const payload = snap.val() ? snap.val() : [];
     commit('NEW_SUBSECTION', payload);
+    resolve();
   });
-};
+});
 const chNewSubsection = ({ commit }, sId) => new Promise((resolve) => {
   commit('CH_NEW_SUBSECTION', sId);
   resolve();

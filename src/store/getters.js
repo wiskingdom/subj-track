@@ -20,6 +20,31 @@ const sIdFromPredId = state => predId => state.predIndex[predId].sId;
 
 // for pred view
 const thePred = state => state.thePred;
+const allFilled = (state) => {
+  const { skipTrack, subj1, subj2 } = state.thePred.anno;
+  let subj1Filled = false;
+  let subj2Filled = false;
+
+  const targets = ['discourse', 'participants'];
+
+  if (skipTrack === true) {
+    subj1Filled = true;
+    subj2Filled = true;
+  } else {
+    if (targets.includes(subj1.type)) {
+      subj1Filled = !!subj1.inTheC;
+    } else if (subj1.type === 'worldKnowledge') {
+      subj1Filled = true;
+    }
+    if (targets.includes(subj2.type)) {
+      subj2Filled = !!subj2.inTheC;
+    } else if (subj2.type === 'worldKnowledge') {
+      subj2Filled = true;
+    }
+  }
+
+  return subj1Filled && subj2Filled;
+};
 
 export {
   isFetchedMain,
@@ -37,4 +62,5 @@ export {
   nextPredId,
   sIdFromPredId,
   thePred,
+  allFilled,
 };

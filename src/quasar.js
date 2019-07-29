@@ -30,6 +30,8 @@ import {
   QDialog,
   Loading,
   QMarkupTable,
+  QSeparator,
+  QBar,
 } from 'quasar';
 
 Vue.use(Quasar, {
@@ -57,6 +59,8 @@ Vue.use(Quasar, {
     QTooltip,
     QDialog,
     QMarkupTable,
+    QSeparator,
+    QBar,
   },
   directives: {
     Ripple,

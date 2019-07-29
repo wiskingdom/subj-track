@@ -7,6 +7,40 @@
     <p>thePredId: {{ thePredId }}</p>
     <p>lastPredId: {{ lastPredId }}</p>
     -->
+    <q-bar dense class="bg-teal text-white">
+      <div>Out of Discourse</div>
+    </q-bar>
+
+    <q-markup-table
+      flat
+      dense
+      wrap-cells
+      separator="none"
+      class="bg-grey-2"
+    >
+      <tr>
+        <td class="text-center">
+          <q-btn style="background: grey; color: white" label="World Knowledge" />
+        </td>
+      </tr>
+      <tr><td> </td></tr>
+      <tr>
+        <td class="text-center">
+          <q-btn style="background: grey; color: white" label="Participants" />
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          <q-btn style="background: grey; color: white" label="Speaker" />
+          <q-btn style="background: grey; color: white" label="Hearer(s)" />
+        </td>
+      </tr>
+    </q-markup-table>
+
+    <q-bar dense class="bg-teal text-white">
+      <div>Summary of S-P Interpretation</div>
+    </q-bar>
+
     <q-markup-table
       flat
       dense
@@ -17,13 +51,16 @@
     >
       <thead>
         <tr>
-          <th class="text-center">Morph</th>
-          <th class="text-center">POS</th>
+          <th class="text-center">S1 (S2) P</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td class="text-center">
+            <span
+            >{{thePred.anno.subj1.morph}}</span>
+            <span
+            >{{thePred.anno.subj2.morph}}</span>
             <span
               v-for="(item, index) in thePred.spec.left"
               :key="`left-${index}`"
@@ -35,16 +72,12 @@
               :key="`right-${index}`"
             >{{item.delim}}{{item.morph}}</span>
           </td>
-          <td class="text-center">
-            <span
-            >{{thePred.spec.tag}}</span>
-          </td>
-
         </tr>
       </tbody>
     </q-markup-table>
-
-    <p>thePred: {{ thePred }}</p>
+    <q-bar dense class="bg-teal text-white">
+      <div>Form in the C</div>
+    </q-bar>
   </div>
 </template>
 

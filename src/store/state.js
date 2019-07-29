@@ -22,24 +22,31 @@ export default {
     predId: 0,
     tokenId: '',
     sId: 0,
+    speaker: '',
     spec: {
-      speaker: '',
       morph: '',
       tag: '',
+      delim: '',
       left: [],
       right: [],
     },
     anno: {
-      isMainP: true,
-      stopTrack: false,
-      stopTrackType: false,
-      subs: [],
-      mainSubPick: false,
-      directInput: '',
-      inTheSameS: true,
-      inTheSameC: true,
-      allFilled: false,
-      state: 'ready',
+      skipTrack: false,
+      skipReason: '',
+      subj1: {
+        type: '', // worldKnowledge, discourse, participants, false
+        subjId: '',
+        morph: '',
+        tag: '',
+        inTheC: '', // itself, overt pro, null pro, PRO
+      },
+      subj2: {
+        type: '', // worldKnowledge, discourse, participants, false
+        subjId: '',
+        morph: '',
+        tag: '',
+        inTheC: '', // itself, overt pro, null pro, PRO
+      },
       updatedBy: false,
       updatedAt: false,
     },

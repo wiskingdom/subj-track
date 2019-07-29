@@ -15,7 +15,7 @@ const THE_DOC_ID = (state, payload) => {
   state.theDocId = payload;
 };
 
-// for anno tool layout
+// for doc layout
 const IS_FETCHED_DOC = (state, payload) => {
   state.isFetchedAnno = payload;
 };
@@ -56,6 +56,8 @@ const LAST_PRED_ID = (state, payload) => {
 const THE_PRED_ID = (state, payload) => {
   state.thePredId = Number(payload);
 };
+
+// for pred view
 const THE_PRED = (state, payload) => {
   state.thePred = payload;
 };

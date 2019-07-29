@@ -86,6 +86,8 @@ const setLastPredId = ({ state, commit }) => new Promise((resolve) => {
   commit('LAST_PRED_ID', state.predIndex.length - 1);
   resolve();
 });
+
+// for pred view
 const pickPred = ({ commit }, predId) => new Promise((resolve) => {
   commit('THE_PRED_ID', predId);
   resolve();

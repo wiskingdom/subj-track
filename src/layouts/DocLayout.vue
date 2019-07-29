@@ -129,12 +129,12 @@
           <span
             v-for="(token, tKey) in s.tokens"
             :key="tKey"
-          >{{`${token.delim}`}}<template
+          ><template
               v-if="token.type === 'nominal'"
             >
               <span
                 class="cursor-pointer nominal text-blue-8 text-bold"
-              >{{`${token.morph}`}}</span>
+              >{{token.delim}}{{token.morph}}</span>
               <q-tooltip>
                 {{token.tag}}
               </q-tooltip>
@@ -150,7 +150,7 @@
                 event=""
                 exact
               >
-                {{`${token.morph}`}}</router-link></span>
+                {{token.delim}}{{token.morph}}</router-link></span>
               <q-tooltip>
                 {{token.tag}}
               </q-tooltip>
@@ -159,7 +159,7 @@
               v-else
             >
               <span
-              >{{`${token.morph}`}}</span>
+              >{{token.delim}}{{token.morph}}</span>
               <q-tooltip>
                 {{token.tag}}
               </q-tooltip>
@@ -180,10 +180,10 @@
       behavior="desktop"
       bordered
       content-class="bg-grey-2"
-      :width="350"
+      :width="360"
     >
 
-      <div class="q-gutter-md" style="padding: 60px 10px 10px 10px;">
+      <div class="q-gutter-md" style="padding: 60px 10px 0px 10px;">
         <!-- navigator -->
         <q-btn
           flat color="secondary"
@@ -214,6 +214,7 @@
           icon="info"
           @click="onInfo"
         />
+
       </div>
       <router-view />
     </q-drawer>
@@ -374,7 +375,7 @@ export default {
     font-size: medium;
   }
   .router-link-active {
-    background:rgba(240, 128, 128, 0.651);
+    background:rgba(240, 128, 128, 0.5);
   }
 </style>
 >

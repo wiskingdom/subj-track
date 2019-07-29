@@ -21,6 +21,7 @@
         </div>
         <q-btn
           color="primary"
+          unelevated
           @click="logout"
           :label="logBTN"
           style="margin-left: 10px"

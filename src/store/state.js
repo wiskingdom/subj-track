@@ -39,6 +39,7 @@ export default {
         morph: '',
         tag: '',
         inTheC: '', // itself, overt pro, null pro, PRO
+        infer: '',
       },
       subj2: {
         type: '', // worldKnowledge, discourse, participants, false
@@ -46,6 +47,7 @@ export default {
         morph: '',
         tag: '',
         inTheC: '', // itself, overt pro, null pro, PRO
+        infer: '',
       },
       updatedBy: false,
       updatedAt: false,

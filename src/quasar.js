@@ -25,13 +25,15 @@ import {
   Ripple,
   QBanner,
   QAvatar,
-  QToggle,
+  QBtnToggle,
   QTooltip,
   QDialog,
   Loading,
   QMarkupTable,
   QSeparator,
   QBar,
+  QRadio,
+  QSpace,
 } from 'quasar';
 
 Vue.use(Quasar, {
@@ -55,12 +57,14 @@ Vue.use(Quasar, {
     QSelect,
     QBanner,
     QAvatar,
-    QToggle,
+    QBtnToggle,
     QTooltip,
     QDialog,
     QMarkupTable,
     QSeparator,
     QBar,
+    QRadio,
+    QSpace,
   },
   directives: {
     Ripple,

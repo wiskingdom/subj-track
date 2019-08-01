@@ -8,7 +8,7 @@
     <p>lastPredId: {{ lastPredId }}</p>
     -->
 
-    <q-bar dense class="bg-secondary text-white">
+    <q-bar dense class="bg-grey-4 text-black text-bold">
       <div>Outside Discourse</div>
     </q-bar>
 
@@ -73,8 +73,11 @@
       </tr>
     </q-markup-table>
 
-    <q-bar dense class="bg-secondary text-white">
-      <div>Summary of Tracking</div>
+    <q-bar dense class="bg-grey-4 text-black text-bold">
+      <div>State </div>
+      <q-badge :color="theStateColor(annoState)">
+        {{ annoState}}
+      </q-badge>
       <q-space />
       <q-btn-toggle
         dense
@@ -99,6 +102,7 @@
       bordered
       separator="cell"
       class="bg-grey-2"
+      v-show="!theAnno.skipTrack"
     >
       <thead>
         <tr>
@@ -109,7 +113,7 @@
       </thead>
       <tbody>
         <tr>
-          <td class="text-center">
+          <td class="text-center text-primary text-bold">
             <span
               tabindex="-1"
               class="bg-amber-3"
@@ -118,7 +122,7 @@
               <q-tooltip>{{theAnno.subj1.tag}}</q-tooltip>
             </span>
           </td>
-          <td class="text-center">
+          <td class="text-center text-primary text-bold">
             <span
               tabindex="-1"
               class="bg-lime-3"
@@ -149,14 +153,14 @@
       </tbody>
     </q-markup-table>
     <q-bar
-      dense class="bg-secondary text-white"
-      v-show="hasInTheC('subj1')"
+      dense class="bg-grey-4 text-black text-bold"
+      v-show="!theAnno.skipTrack && hasInTheC('subj1')"
     >
       <div>S1 Detail (Realization)</div>
     </q-bar>
     <div
       class="q-gutter-sm text-grey-8"
-      v-show="hasInTheC('subj1')"
+      v-show="!theAnno.skipTrack && hasInTheC('subj1')"
     >
     <q-option-group
       dense
@@ -173,14 +177,14 @@
 
     </div>
     <q-bar
-      dense class="bg-secondary text-white"
-      v-show="hasInTheC('subj2')"
+      dense class="bg-grey-4 text-black text-bold"
+      v-show="!theAnno.skipTrack && hasInTheC('subj2')"
     >
       <div>S2 Detail (Realization)</div>
     </q-bar>
     <div
       class="q-gutter-sm text-grey-8"
-      v-show="hasInTheC('subj2')"
+      v-show="!theAnno.skipTrack && hasInTheC('subj2')"
     >
         <q-option-group
       dense
@@ -243,6 +247,8 @@ export default {
       'theAnno',
       'isSubj',
       'hasInTheC',
+      'annoState',
+      'theStateColor',
     ]),
   },
   watch: {

@@ -27,7 +27,7 @@
               >
                 <q-item-section>
                   <q-item-label>{{ index }}
-                    <q-badge color="grey-5">
+                    <q-badge :color="theStateColor(item.state)">
                       {{ item.state }}
                     </q-badge>
                   </q-item-label>
@@ -134,6 +134,25 @@
             >
               <span
                 class="cursor-pointer nominal text-blue-8 text-bold"
+                :ref="`${tKey}`"
+                @click="pickSubj({
+                  payload: {
+                    type: 'discourse',
+                    subjId: tKey,
+                    morph: token.morph,
+                    tag: token.tag,
+                  },
+                  subjN: 'subj1'
+                })"
+                @contextmenu.prevent="pickSubj({
+                  payload: {
+                    type: 'discourse',
+                    subjId: tKey,
+                    morph: token.morph,
+                    tag: token.tag,
+                  },
+                  subjN: 'subj2'
+                })"
               >{{token.delim}}{{token.morph}}</span>
               <q-tooltip>
                 {{token.tag}}
@@ -253,6 +272,9 @@ export default {
       'prevPredId',
       'nextPredId',
       'sIdFromPredId',
+      'theStateColor',
+      'isSubj',
+      'theAnno',
     ]),
   },
   watch: {
@@ -293,6 +315,8 @@ export default {
       'pushNewSubsection',
       'fetchPredIndex',
       'setLastPredId',
+      'pickSubj',
+      'deleteSubj',
     ]),
     dialog(value) {
       this.$q.dialog({
@@ -312,6 +336,18 @@ export default {
     },
     scrollToTop() {
       window.scrollTo(0, 0);
+    },
+    addClassByTokenId(tokenId) {
+      const el = this.$refs[tokenId];
+      if (this.isSubj(tokenId)('subj2')) {
+        el.classList.add('bg-lime-3');
+      } else if (this.isSubj(tokenId)('subj1')) {
+        el.classList.add('bg-amber-3');
+      }
+    },
+    removeClassByTokenId(tokenId) {
+      const el = this.$refs[tokenId];
+      el.classList.remove('bg-lime-3 bg-amber-3');
     },
     onList() {
       this.showPredList = true;
@@ -351,22 +387,6 @@ export default {
       this.setLastPredId();
       this.$q.loading.hide();
     });
-
-    /* past
-    this.pickDoc(docId);
-    this.fetchTheDoc(docId)
-      .then(() => {
-        this.checkFechedDoc();
-        this.$q.loading.hide();
-      });
-    this.fetchNewSubsection(docId);
-    this.fetchTheDocMeta(docId);
-    this.fetchTheDocFolder(docId);
-    this.fetchSpeakerColor();
-    this.fetchPredIndex(docId)
-      .then(this.setLastPredId);
-    this.scrollToTop();
-    */
   },
 };
 </script>

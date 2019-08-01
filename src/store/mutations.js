@@ -86,6 +86,10 @@ const STAMP = (state, payload) => {
 const SKIP_TRACK = (state, value) => {
   state.thePred.anno.skipTrack = value;
 };
+const ANNO_STATE = (state, value) => {
+  const { predIndex, thePredId } = state;
+  predIndex[thePredId].state = value;
+};
 
 export {
   IS_FETCHED_MAIN,
@@ -113,4 +117,5 @@ export {
   SUBJ_ID,
   STAMP,
   SKIP_TRACK,
+  ANNO_STATE,
 };

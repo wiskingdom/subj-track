@@ -107,11 +107,13 @@ const pushAnno = ({ state, getters, commit }) => {
   const updatedAt = new Date().toString();
   commit('STAMP', { updatedBy, updatedAt });
 
-  const { theAnno } = getters;
+  const { theAnno, annoState } = getters;
   db.ref(`/main/predAnno/${theDocId}/${thePredId}/anno`)
     .update(theAnno);
+  db.ref(`/main/predIndex/${theDocId}/${thePredId}/state`)
+    .set(annoState);
 };
-const pickSubj = ({ commit, dispatch }, { payload, subjN }) => {
+const pickSubj = ({ getters, commit, dispatch }, { payload, subjN }) => {
   const {
     type, subjId, morph, tag,
   } = payload;
@@ -120,30 +122,36 @@ const pickSubj = ({ commit, dispatch }, { payload, subjN }) => {
   commit('MORPH', { morph, subjN });
   commit('TAG', { tag, subjN });
   commit('IN_THE_C', { inTheC: '', subjN });
+  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const deleteSubj = ({ commit, dispatch }, subjN) => {
+const deleteSubj = ({ getters, commit, dispatch }, subjN) => {
   commit('TYPE', { type: '', subjN });
   commit('SUBJ_ID', { subjId: '', subjN });
   commit('MORPH', { morph: '', subjN });
   commit('TAG', { tag: '', subjN });
   commit('IN_THE_C', { inTheC: '', subjN });
+  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setInTheC1 = ({ commit, dispatch }, inTheC) => {
+const setInTheC1 = ({ getters, commit, dispatch }, inTheC) => {
   commit('IN_THE_C', { inTheC, subjN: 'subj1' });
+  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setInTheC2 = ({ commit, dispatch }, inTheC) => {
+const setInTheC2 = ({ getters, commit, dispatch }, inTheC) => {
   commit('IN_THE_C', { inTheC, subjN: 'subj2' });
+  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setInfer = ({ commit, dispatch }, { infer, subjN }) => {
+const setInfer = ({ getters, commit, dispatch }, { infer, subjN }) => {
   commit('INFER', { infer, subjN });
+  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setSkipTrack = ({ commit, dispatch }, value) => {
+const setSkipTrack = ({ getters, commit, dispatch }, value) => {
   commit('SKIP_TRACK', value);
+  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
 

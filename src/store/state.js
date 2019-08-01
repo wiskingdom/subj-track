@@ -13,6 +13,12 @@ export default {
   subjTrack: {},
   theDocMeta: {}, // readonly
   speakerColor: {}, // readonly
+  stateColor: {
+    ready: 'grey',
+    ongoing: 'warning',
+    complete: 'green',
+    skipped: 'black',
+  }, // readonly
   predIndex: [],
   lastPredId: 0,
   thePredId: 0,

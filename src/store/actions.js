@@ -1,6 +1,7 @@
 import fireapp from '@/fireapp';
 
 const db = fireapp.database();
+const auth = fireapp.auth();
 
 // for main layout
 const fetchDocIndex = ({ commit }) => new Promise((resolve) => {
@@ -100,6 +101,53 @@ const fetchThePred = ({ commit }, ids) => new Promise((resolve) => {
     });
 });
 
+const pushAnno = ({ state, getters, commit }) => {
+  const { theDocId, thePredId } = state;
+  const updatedBy = auth.currentUser.email;
+  const updatedAt = new Date().toString();
+  commit('STAMP', { updatedBy, updatedAt });
+
+  const { theAnno } = getters;
+  db.ref(`/main/predAnno/${theDocId}/${thePredId}/anno`)
+    .update(theAnno);
+};
+const pickSubj = ({ commit, dispatch }, { payload, subjN }) => {
+  const {
+    type, subjId, morph, tag,
+  } = payload;
+  commit('TYPE', { type, subjN });
+  commit('SUBJ_ID', { subjId, subjN });
+  commit('MORPH', { morph, subjN });
+  commit('TAG', { tag, subjN });
+  commit('IN_THE_C', { inTheC: '', subjN });
+  dispatch('pushAnno');
+};
+const deleteSubj = ({ commit, dispatch }, subjN) => {
+  commit('TYPE', { type: '', subjN });
+  commit('SUBJ_ID', { subjId: '', subjN });
+  commit('MORPH', { morph: '', subjN });
+  commit('TAG', { tag: '', subjN });
+  commit('IN_THE_C', { inTheC: '', subjN });
+  dispatch('pushAnno');
+};
+const setInTheC1 = ({ commit, dispatch }, inTheC) => {
+  commit('IN_THE_C', { inTheC, subjN: 'subj1' });
+  dispatch('pushAnno');
+};
+const setInTheC2 = ({ commit, dispatch }, inTheC) => {
+  commit('IN_THE_C', { inTheC, subjN: 'subj2' });
+  dispatch('pushAnno');
+};
+const setInfer = ({ commit, dispatch }, { infer, subjN }) => {
+  commit('INFER', { infer, subjN });
+  dispatch('pushAnno');
+};
+const setSkipTrack = ({ commit, dispatch }, value) => {
+  commit('SKIP_TRACK', value);
+  dispatch('pushAnno');
+};
+
+
 export {
   fetchDocIndex,
   fetchDocFolders,
@@ -118,4 +166,11 @@ export {
   setLastPredId,
   pickPred,
   fetchThePred,
+  pickSubj,
+  setInTheC1,
+  setInTheC2,
+  setInfer,
+  deleteSubj,
+  pushAnno,
+  setSkipTrack,
 };

@@ -26,22 +26,46 @@
             style="width: 165px"
             label="Sender + Recipient(s)"
             color="grey-8"
+            :class="{
+              'bg-lime-3':isSubj('participant')('subj2'),
+              'bg-amber-3':isSubj('participant')('subj1'),
+            }"
+            @click="pickSubj({payload: btnVal.participant, subjN: 'subj1'})"
+            @contextmenu.prevent="pickSubj({payload: btnVal.participant, subjN: 'subj2'})"
           />
           <q-btn outline rounded
             size="sm"
             label="Sender"
             color="grey-8"
+            :class="{
+              'bg-lime-3':isSubj('sender')('subj2'),
+              'bg-amber-3':isSubj('sender')('subj1'),
+            }"
+            @click="pickSubj({payload: btnVal.sender, subjN: 'subj1'})"
+            @contextmenu.prevent="pickSubj({payload: btnVal.sender, subjN: 'subj2'})"
           />
           <q-btn outline rounded
             size="sm"
             label="Recipient(s)"
             color="grey-8"
+            :class="{
+              'bg-lime-3':isSubj('recipient')('subj2'),
+              'bg-amber-3':isSubj('recipient')('subj1'),
+            }"
+            @click="pickSubj({payload: btnVal.recipient, subjN: 'subj1'})"
+            @contextmenu.prevent="pickSubj({payload: btnVal.recipient, subjN: 'subj2'})"
           />
         </td>
         <td class="text-center">
           <q-btn outline rounded
             size="sm"
             color="grey-8"
+            :class="{
+              'bg-lime-3':isSubj('knowledge')('subj2'),
+              'bg-amber-3':isSubj('knowledge')('subj1'),
+            }"
+            @click="pickSubj({payload: btnVal.knowledge, subjN: 'subj1'})"
+            @contextmenu.prevent="pickSubj({payload: btnVal.knowledge, subjN: 'subj2'})"
           >
             World<br>Knowledge
           </q-btn>
@@ -57,12 +81,14 @@
         no-caps
         unelevated
         toggle-color="primary"
-        color="white"
+        color="grey-4"
         text-color="primary"
+        :value="theAnno.skipTrack"
         :options="[
-          {label: 'Keep', value: true},
-          {label: 'Skip', value: false}
+          {label: 'Keep', value: false},
+          {label: 'Skip', value: true}
         ]"
+        @input="setSkipTrack"
       />
     </q-bar>
 
@@ -85,11 +111,21 @@
         <tr>
           <td class="text-center">
             <span
-            >{{thePred.anno.subj1.morph}}</span>
+              tabindex="-1"
+              class="bg-amber-3"
+              @keydown.delete="deleteSubj('subj1')"
+            >{{theAnno.subj1.morph}}
+              <q-tooltip>{{theAnno.subj1.tag}}</q-tooltip>
+            </span>
           </td>
           <td class="text-center">
             <span
-            >{{thePred.anno.subj2.morph}}</span>
+              tabindex="-1"
+              class="bg-lime-3"
+              @keydown.delete="deleteSubj('subj2')"
+            >{{theAnno.subj2.morph}}
+              <q-tooltip>{{theAnno.subj2.tag}}</q-tooltip>
+            </span>
           </td>
           <td class="text-center">
             <span
@@ -112,21 +148,52 @@
         </tr>
       </tbody>
     </q-markup-table>
-    <q-bar dense class="bg-secondary text-white">
+    <q-bar
+      dense class="bg-secondary text-white"
+      v-show="hasInTheC('subj1')"
+    >
       <div>S1 Detail (Realization)</div>
     </q-bar>
-    <div class="q-gutter-sm text-grey-8">
-      <q-radio dense val="lexical" label="lexical" />
-      <q-radio dense val="pro" label="pro" />
-      <q-radio dense val="null" label="dropped" />
+    <div
+      class="q-gutter-sm text-grey-8"
+      v-show="hasInTheC('subj1')"
+    >
+    <q-option-group
+      dense
+      inline
+      type="radio"
+      :options="[
+          {label: 'itself', value: 'itself'},
+          {label: 'pro', value: 'pro'},
+          {label: 'dropped', value: 'dropped'},
+        ]"
+      :value="theAnno.subj1.inTheC"
+      @input="setInTheC1"
+    />
+
     </div>
-    <q-bar dense class="bg-secondary text-white">
+    <q-bar
+      dense class="bg-secondary text-white"
+      v-show="hasInTheC('subj2')"
+    >
       <div>S2 Detail (Realization)</div>
     </q-bar>
-    <div class="q-gutter-sm text-grey-8">
-      <q-radio dense val="lexical" label="lexical" />
-      <q-radio dense val="pro" label="pro" />
-      <q-radio dense val="null" label="dropped" />
+    <div
+      class="q-gutter-sm text-grey-8"
+      v-show="hasInTheC('subj2')"
+    >
+        <q-option-group
+      dense
+      inline
+      type="radio"
+      :options="[
+          {label: 'itself', value: 'itself'},
+          {label: 'pro', value: 'pro'},
+          {label: 'dropped', value: 'dropped'},
+        ]"
+      :value="theAnno.subj2.inTheC"
+      @input="setInTheC2"
+    />
     </div>
   </div>
 </template>
@@ -136,13 +203,46 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Pred',
+  data() {
+    return {
+      btnVal: {
+        participant: {
+          type: 'participant',
+          subjId: 'participant',
+          morph: '[우리]',
+          tag: 'Sender + Recipient(s)',
+        },
+        sender: {
+          type: 'participant',
+          subjId: 'sender',
+          morph: '[나]',
+          tag: 'Sender',
+        },
+        recipient: {
+          type: 'participant',
+          subjId: 'recipient',
+          morph: '[너]',
+          tag: 'Recipient(s)',
+        },
+        knowledge: {
+          type: 'knowledge',
+          subjId: 'knowledge',
+          morph: '?',
+          tag: 'World Knowledge',
+        },
+
+      },
+    };
+  },
   computed: {
     ...mapGetters([
       'theDocId',
       'thePredId',
       'lastPredId',
       'thePred',
-
+      'theAnno',
+      'isSubj',
+      'hasInTheC',
     ]),
   },
   watch: {
@@ -159,6 +259,12 @@ export default {
     ...mapActions([
       'pickPred',
       'fetchThePred',
+      'pickSubj',
+      'deleteSubj',
+      'setInTheC1',
+      'setInTheC2',
+      'setInfer',
+      'setSkipTrack',
     ]),
     dialog(value) {
       this.$q.dialog({

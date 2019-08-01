@@ -20,6 +20,12 @@ const sIdFromPredId = state => predId => state.predIndex[predId].sId;
 
 // for pred view
 const thePred = state => state.thePred;
+const theAnno = state => state.thePred.anno;
+const isSubj = state => id => subjN => state.thePred.anno[subjN].subjId === id;
+const hasInTheC = state => subjN => ['discourse', 'participant']
+  .includes(state.thePred.anno[subjN].type);
+const hasInfer = state => subjN => state.thePred.anno[subjN].type === 'knowledge';
+
 const allFilled = (state) => {
   const { skipTrack, subj1, subj2 } = state.thePred.anno;
   let subj1Filled = false;
@@ -62,5 +68,9 @@ export {
   nextPredId,
   sIdFromPredId,
   thePred,
+  theAnno,
+  isSubj,
   allFilled,
+  hasInTheC,
+  hasInfer,
 };

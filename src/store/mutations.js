@@ -61,6 +61,31 @@ const THE_PRED_ID = (state, payload) => {
 const THE_PRED = (state, payload) => {
   state.thePred = payload;
 };
+const IN_THE_C = (state, { inTheC, subjN }) => {
+  state.thePred.anno[subjN].inTheC = inTheC;
+};
+const INFER = (state, { infer, subjN }) => {
+  state.thePred.anno[subjN].morph = infer;
+};
+const TYPE = (state, { type, subjN }) => {
+  state.thePred.anno[subjN].type = type;
+};
+const SUBJ_ID = (state, { subjId, subjN }) => {
+  state.thePred.anno[subjN].subjId = subjId;
+};
+const MORPH = (state, { morph, subjN }) => {
+  state.thePred.anno[subjN].morph = morph;
+};
+const TAG = (state, { tag, subjN }) => {
+  state.thePred.anno[subjN].tag = tag;
+};
+const STAMP = (state, payload) => {
+  state.thePred.anno.updatedBy = payload.updatedBy;
+  state.thePred.anno.updatedAt = payload.updatedAt;
+};
+const SKIP_TRACK = (state, value) => {
+  state.thePred.anno.skipTrack = value;
+};
 
 export {
   IS_FETCHED_MAIN,
@@ -80,4 +105,12 @@ export {
   LAST_PRED_ID,
   THE_PRED_ID,
   THE_PRED,
+  IN_THE_C,
+  INFER,
+  TYPE,
+  MORPH,
+  TAG,
+  SUBJ_ID,
+  STAMP,
+  SKIP_TRACK,
 };

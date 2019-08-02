@@ -92,9 +92,26 @@
         {{ annoState}}
       </q-badge>
       <q-space />
-      <q-btn flat round dense icon="new_releases"
-        @click="onNote"
-      />
+      <q-btn flat round icon="new_releases"
+        :class="{'text-red-6': !!theAnno.note}"
+      >
+        <q-popup-edit autofocus v-model="showNote">
+          <div
+            class="q-gutter-md"
+            style="padding: 10px 10px;"
+          >
+            <q-input
+              type="textarea"
+              label="Note"
+              :value="theAnno.note"
+              @input="setNote"
+              @keyup.enter.stop
+            />
+          </div>
+        </q-popup-edit>
+      </q-btn>
+      <!-- note -->
+
       <q-btn-toggle
         dense
         no-caps
@@ -248,31 +265,6 @@
     />
     </div>
 
-    <!-- note -->
-    <q-dialog v-model="showNote">
-        <q-layout view="Lhh lpR fff" container class="bg-white">
-          <q-header class="bg-primary">
-            <q-toolbar>
-              <q-toolbar-title>Note</q-toolbar-title>
-              <q-btn flat round dense icon="close"
-                @click="offNote"
-              />
-            </q-toolbar>
-          </q-header>
-          <q-page-container>
-            <div
-              class="q-gutter-md"
-              style="padding: 10px 10px;"
-            >
-            <q-input
-              type="textarea"
-              :value="theAnno.note"
-              @input="setNote"
-            />
-          </div>
-          </q-page-container>
-        </q-layout>
-      </q-dialog>
   </div>
 </template>
 

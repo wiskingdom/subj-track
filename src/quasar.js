@@ -35,6 +35,7 @@ import {
   QRadio,
   QSpace,
   QOptionGroup,
+  QPopupEdit,
 } from 'quasar';
 
 Vue.use(Quasar, {
@@ -67,6 +68,7 @@ Vue.use(Quasar, {
     QRadio,
     QSpace,
     QOptionGroup,
+    QPopupEdit,
   },
   directives: {
     Ripple,

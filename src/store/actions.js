@@ -103,17 +103,21 @@ const fetchThePred = ({ commit }, ids) => new Promise((resolve) => {
 
 const pushAnno = ({ state, getters, commit }) => {
   const { theDocId, thePredId } = state;
+  const { theAnno, annoState } = getters;
   const updatedBy = auth.currentUser.email;
   const updatedAt = new Date().toString();
   commit('STAMP', { updatedBy, updatedAt });
+  commit('ANNO_STATE', annoState);
+  commit('HAS_NOTE', !!theAnno.note);
 
-  const { theAnno, annoState } = getters;
   db.ref(`/main/predAnno/${theDocId}/${thePredId}/anno`)
     .update(theAnno);
   db.ref(`/main/predIndex/${theDocId}/${thePredId}/state`)
     .set(annoState);
+  db.ref(`/main/predIndex/${theDocId}/${thePredId}/hasNote`)
+    .set(!!theAnno.note);
 };
-const pickSubj = ({ getters, commit, dispatch }, { payload, subjN }) => {
+const pickSubj = ({ commit, dispatch }, { payload, subjN }) => {
   const {
     type, subjId, morph, tag,
   } = payload;
@@ -122,48 +126,40 @@ const pickSubj = ({ getters, commit, dispatch }, { payload, subjN }) => {
   commit('MORPH', { morph, subjN });
   commit('TAG', { tag, subjN });
   commit('IN_THE_C', { inTheC: '', subjN });
-  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const deleteSubj = ({ getters, commit, dispatch }, subjN) => {
+const deleteSubj = ({ commit, dispatch }, subjN) => {
   commit('TYPE', { type: '', subjN });
   commit('SUBJ_ID', { subjId: '', subjN });
   commit('MORPH', { morph: '', subjN });
   commit('TAG', { tag: '', subjN });
   commit('IN_THE_C', { inTheC: '', subjN });
-  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setInTheC1 = ({ getters, commit, dispatch }, inTheC) => {
+const setInTheC1 = ({ commit, dispatch }, inTheC) => {
   commit('IN_THE_C', { inTheC, subjN: 'subj1' });
-  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setInTheC2 = ({ getters, commit, dispatch }, inTheC) => {
+const setInTheC2 = ({ commit, dispatch }, inTheC) => {
   commit('IN_THE_C', { inTheC, subjN: 'subj2' });
-  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setInfer1 = ({ getters, commit, dispatch }, infer) => {
+const setInfer1 = ({ commit, dispatch }, infer) => {
   commit('INFER', { infer: `${infer}?`, subjN: 'subj1' });
-  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setInfer2 = ({ getters, commit, dispatch }, infer) => {
+const setInfer2 = ({ commit, dispatch }, infer) => {
   commit('INFER', { infer: `${infer}?`, subjN: 'subj2' });
-  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setSkipTrack = ({ getters, commit, dispatch }, value) => {
+const setSkipTrack = ({ commit, dispatch }, value) => {
   commit('SKIP_TRACK', value);
-  commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
 const setNote = ({ commit, dispatch }, payload) => {
   commit('NOTE', payload);
   dispatch('pushAnno');
 };
-
 
 export {
   fetchDocIndex,

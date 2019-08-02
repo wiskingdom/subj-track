@@ -93,6 +93,10 @@ const ANNO_STATE = (state, value) => {
 const NOTE = (state, payload) => {
   state.thePred.anno.note = payload;
 };
+const HAS_NOTE = (state, payload) => {
+  const { predIndex, thePredId } = state;
+  predIndex[thePredId].hasNote = payload;
+};
 export {
   IS_FETCHED_MAIN,
   DOC_INDEX,
@@ -121,4 +125,5 @@ export {
   SKIP_TRACK,
   ANNO_STATE,
   NOTE,
+  HAS_NOTE,
 };

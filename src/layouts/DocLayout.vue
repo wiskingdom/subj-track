@@ -26,10 +26,15 @@
                 :key="`${index}`"
               >
                 <q-item-section>
-                  <q-item-label>{{ index }}
+                  <q-item-label>{{ index }} <span> &nbsp;&nbsp; </span>
                     <q-badge :color="theStateColor(item.state)">
                       {{ item.state }}
                     </q-badge>
+                    <span> &nbsp;&nbsp; </span>
+                    <q-icon flat round name="new_releases"
+                      class="text-red-6"
+                      v-show="item.hasNote"
+                    />
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -208,11 +213,14 @@
           icon="arrow_left"
           :to="`/main/${theDocId}/${prevPredId}`"
           :disable="thePredId === 0"
+          @click="pushAnno"
         />
         <q-avatar
           square
+          class="cursor-pointer"
           size="25px"
           color="grey-1"
+          @click="scrollToSunitByPredId(thePredId)"
         >
           {{thePredId}}
         </q-avatar>
@@ -221,6 +229,7 @@
           icon="arrow_right"
           :to="`/main/${theDocId}/${nextPredId}`"
           :disable="thePredId === lastPredId"
+          @click="pushAnno"
         />
         <q-btn
           flat color="secondary"
@@ -334,6 +343,7 @@ export default {
       'setLastPredId',
       'pickSubj',
       'deleteSubj',
+      'pushAnno',
     ]),
     dialog(value) {
       this.$q.dialog({

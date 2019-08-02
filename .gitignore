@@ -3,6 +3,7 @@ node_modules
 /dist
 bfg.jar
 /src/.firebase.config.json
+.firebase
 
 # local env files
 .env.local

@@ -33,6 +33,7 @@
             @click="pickSubj({payload: btnVal.participant, subjN: 'subj1'})"
             @contextmenu.prevent="pickSubj({payload: btnVal.participant, subjN: 'subj2'})"
           />
+          <br>
           <q-btn outline rounded
             size="sm"
             label="Sender"
@@ -59,6 +60,8 @@
         <td class="text-center">
           <q-btn outline rounded
             size="sm"
+            style="width: 110px"
+            label="Knowledge"
             color="grey-8"
             :class="{
               'bg-lime-3':isSubj('knowledge')('subj2'),
@@ -66,9 +69,19 @@
             }"
             @click="pickSubj({payload: btnVal.knowledge, subjN: 'subj1'})"
             @contextmenu.prevent="pickSubj({payload: btnVal.knowledge, subjN: 'subj2'})"
-          >
-            World<br>Knowledge
-          </q-btn>
+          />
+          <br>
+          <q-btn outline rounded
+            size="sm"
+            label="Uncontrolled"
+            color="grey-8"
+            :class="{
+              'bg-lime-3':isSubj('uncontrolled')('subj2'),
+              'bg-amber-3':isSubj('uncontrolled')('subj1'),
+            }"
+            @click="pickSubj({payload: btnVal.uncontrolled, subjN: 'subj1'})"
+            @contextmenu.prevent="pickSubj({payload: btnVal.uncontrolled, subjN: 'subj2'})"
+          />
         </td>
       </tr>
     </q-markup-table>
@@ -79,6 +92,9 @@
         {{ annoState}}
       </q-badge>
       <q-space />
+      <q-btn flat round dense icon="new_releases"
+        @click="onNote"
+      />
       <q-btn-toggle
         dense
         no-caps
@@ -163,11 +179,10 @@
       v-show="!theAnno.skipTrack && hasInTheC('subj1')"
     >
     <q-option-group
-      dense
       inline
       type="radio"
       :options="[
-          {label: 'itself', value: 'itself'},
+          {label: 'lexical', value: 'lexical'},
           {label: 'pro', value: 'pro'},
           {label: 'dropped', value: 'dropped'},
         ]"
@@ -175,6 +190,23 @@
       @input="setInTheC1"
     />
 
+    </div>
+    <q-bar
+      dense class="bg-grey-4 text-black text-bold"
+      v-show="!theAnno.skipTrack && hasInfer('subj1')"
+    >
+      <div>S1 Detail (Inference)</div>
+    </q-bar>
+    <div
+      class="q-gutter-sm text-grey-8"
+      v-show="!theAnno.skipTrack && hasInfer('subj1')"
+    >
+    <q-input
+      outlined
+      dense
+      :value="inferedMorph('subj1')"
+      @input="setInfer1"
+    />
     </div>
     <q-bar
       dense class="bg-grey-4 text-black text-bold"
@@ -186,12 +218,11 @@
       class="q-gutter-sm text-grey-8"
       v-show="!theAnno.skipTrack && hasInTheC('subj2')"
     >
-        <q-option-group
-      dense
+    <q-option-group
       inline
       type="radio"
       :options="[
-          {label: 'itself', value: 'itself'},
+          {label: 'lexical', value: 'lexical'},
           {label: 'pro', value: 'pro'},
           {label: 'dropped', value: 'dropped'},
         ]"
@@ -199,6 +230,49 @@
       @input="setInTheC2"
     />
     </div>
+    <q-bar
+      dense class="bg-grey-4 text-black text-bold"
+      v-show="!theAnno.skipTrack && hasInfer('subj2')"
+    >
+      <div>S2 Detail (Inference)</div>
+    </q-bar>
+    <div
+      class="q-gutter-sm text-grey-8"
+      v-show="!theAnno.skipTrack && hasInfer('subj2')"
+    >
+    <q-input
+      outlined
+      dense
+      :value="inferedMorph('subj2')"
+      @input="setInfer2"
+    />
+    </div>
+
+    <!-- note -->
+    <q-dialog v-model="showNote">
+        <q-layout view="Lhh lpR fff" container class="bg-white">
+          <q-header class="bg-primary">
+            <q-toolbar>
+              <q-toolbar-title>Note</q-toolbar-title>
+              <q-btn flat round dense icon="close"
+                @click="offNote"
+              />
+            </q-toolbar>
+          </q-header>
+          <q-page-container>
+            <div
+              class="q-gutter-md"
+              style="padding: 10px 10px;"
+            >
+            <q-input
+              type="textarea"
+              :value="theAnno.note"
+              @input="setNote"
+            />
+          </div>
+          </q-page-container>
+        </q-layout>
+      </q-dialog>
   </div>
 </template>
 
@@ -232,10 +306,16 @@ export default {
           type: 'knowledge',
           subjId: 'knowledge',
           morph: '?',
-          tag: 'World Knowledge',
+          tag: 'Knowledge',
         },
-
+        uncontrolled: {
+          type: 'uncontrolled',
+          subjId: 'uncontrolled',
+          morph: 'uPRO',
+          tag: 'Uncontrolled PRO',
+        },
       },
+      showNote: false,
     };
   },
   computed: {
@@ -247,8 +327,10 @@ export default {
       'theAnno',
       'isSubj',
       'hasInTheC',
+      'hasInfer',
       'annoState',
       'theStateColor',
+      'inferedMorph',
     ]),
   },
   watch: {
@@ -269,9 +351,17 @@ export default {
       'deleteSubj',
       'setInTheC1',
       'setInTheC2',
-      'setInfer',
+      'setInfer1',
+      'setInfer2',
       'setSkipTrack',
+      'setNote',
     ]),
+    onNote() {
+      this.showNote = true;
+    },
+    offNote() {
+      this.showNote = false;
+    },
     dialog(value) {
       this.$q.dialog({
         title: 'Log',

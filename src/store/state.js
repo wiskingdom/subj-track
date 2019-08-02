@@ -53,8 +53,9 @@ export default {
         tag: '',
         inTheC: '', // itself, overt pro, null pro, PRO
       },
-      updatedBy: false,
-      updatedAt: false,
+      note: '',
+      updatedBy: '',
+      updatedAt: '',
     },
   },
 };

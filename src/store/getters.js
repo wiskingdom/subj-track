@@ -28,6 +28,7 @@ const isSubj = state => id => subjN => id === state.thePred.anno[subjN].subjId;
 const hasInTheC = state => subjN => ['discourse', 'participant']
   .includes(state.thePred.anno[subjN].type);
 const hasInfer = state => subjN => state.thePred.anno[subjN].type === 'knowledge';
+const inferedMorph = state => subjN => state.thePred.anno[subjN].morph.replace(/\?/, '');
 
 const annoState = (state) => {
   const { skipTrack, subj1, subj2 } = state.thePred.anno;
@@ -36,16 +37,17 @@ const annoState = (state) => {
   let subj2Filled = false;
 
   const targets = ['discourse', 'participant'];
+  const untargets = ['knowledge', 'uncontrolled'];
 
   if (targets.includes(subj1.type)) {
     subj1Filled = !!subj1.inTheC;
-  } else if (subj1.type === 'knowledge') {
+  } else if (untargets.includes(subj1.type)) {
     subj1Filled = true;
   }
 
   if (targets.includes(subj2.type)) {
     subj2Filled = !!subj2.inTheC;
-  } else if (subj2.type === 'knowledge') {
+  } else if (untargets.includes(subj2.type)) {
     subj2Filled = true;
   }
 
@@ -94,4 +96,5 @@ export {
   annoState,
   hasInTheC,
   hasInfer,
+  inferedMorph,
 };

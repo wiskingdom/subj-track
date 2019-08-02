@@ -90,7 +90,9 @@ const ANNO_STATE = (state, value) => {
   const { predIndex, thePredId } = state;
   predIndex[thePredId].state = value;
 };
-
+const NOTE = (state, payload) => {
+  state.thePred.anno.note = payload;
+};
 export {
   IS_FETCHED_MAIN,
   DOC_INDEX,
@@ -118,4 +120,5 @@ export {
   STAMP,
   SKIP_TRACK,
   ANNO_STATE,
+  NOTE,
 };

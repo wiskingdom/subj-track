@@ -164,9 +164,8 @@
               <span
                 class="text-bold "
               ><router-link
-                class="cursor-inherit text-green-8"
+                class="cursor-pointer text-green-8"
                 :to="`/main/${theDocId}/${token.predId}`"
-                event=""
                 exact
               >
                 {{token.delim}}{{token.morph}}</router-link></span>
@@ -276,6 +275,12 @@ export default {
       'isSubj',
       'theAnno',
     ]),
+    subj1Id() {
+      return this.theAnno.subj1.subjId;
+    },
+    subj2Id() {
+      return this.theAnno.subj2.subjId;
+    },
   },
   watch: {
     $route: {
@@ -299,6 +304,18 @@ export default {
             this.$q.loading.hide();
           });
         }
+      },
+    },
+    subj1Id: {
+      handler(newVal, oldVal) {
+        this.unmarkSubj1ByTokenId(oldVal);
+        this.markSubj1ByTokenId(newVal);
+      },
+    },
+    subj2Id: {
+      handler(newVal, oldVal) {
+        this.unmarkSubj2ByTokenId(oldVal);
+        this.markSubj2ByTokenId(newVal);
       },
     },
   },
@@ -337,17 +354,29 @@ export default {
     scrollToTop() {
       window.scrollTo(0, 0);
     },
-    addClassByTokenId(tokenId) {
-      const el = this.$refs[tokenId];
-      if (this.isSubj(tokenId)('subj2')) {
+    markSubj2ByTokenId(tokenId) {
+      if (this.$refs[tokenId]) {
+        const el = this.$refs[tokenId][0];
         el.classList.add('bg-lime-3');
-      } else if (this.isSubj(tokenId)('subj1')) {
+      }
+    },
+    markSubj1ByTokenId(tokenId) {
+      if (this.$refs[tokenId]) {
+        const el = this.$refs[tokenId][0];
         el.classList.add('bg-amber-3');
       }
     },
-    removeClassByTokenId(tokenId) {
-      const el = this.$refs[tokenId];
-      el.classList.remove('bg-lime-3 bg-amber-3');
+    unmarkSubj2ByTokenId(tokenId) {
+      if (this.$refs[tokenId]) {
+        const el = this.$refs[tokenId][0];
+        el.classList.remove('bg-lime-3');
+      }
+    },
+    unmarkSubj1ByTokenId(tokenId) {
+      if (this.$refs[tokenId]) {
+        const el = this.$refs[tokenId][0];
+        el.classList.remove('bg-amber-3');
+      }
     },
     onList() {
       this.showPredList = true;

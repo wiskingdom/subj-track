@@ -144,14 +144,23 @@ const setInTheC2 = ({ getters, commit, dispatch }, inTheC) => {
   commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
-const setInfer = ({ getters, commit, dispatch }, { infer, subjN }) => {
-  commit('INFER', { infer, subjN });
+const setInfer1 = ({ getters, commit, dispatch }, infer) => {
+  commit('INFER', { infer: `${infer}?`, subjN: 'subj1' });
+  commit('ANNO_STATE', getters.annoState);
+  dispatch('pushAnno');
+};
+const setInfer2 = ({ getters, commit, dispatch }, infer) => {
+  commit('INFER', { infer: `${infer}?`, subjN: 'subj2' });
   commit('ANNO_STATE', getters.annoState);
   dispatch('pushAnno');
 };
 const setSkipTrack = ({ getters, commit, dispatch }, value) => {
   commit('SKIP_TRACK', value);
   commit('ANNO_STATE', getters.annoState);
+  dispatch('pushAnno');
+};
+const setNote = ({ commit, dispatch }, payload) => {
+  commit('NOTE', payload);
   dispatch('pushAnno');
 };
 
@@ -177,8 +186,10 @@ export {
   pickSubj,
   setInTheC1,
   setInTheC2,
-  setInfer,
+  setInfer1,
+  setInfer2,
   deleteSubj,
   pushAnno,
   setSkipTrack,
+  setNote,
 };
